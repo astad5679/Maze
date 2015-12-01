@@ -38,6 +38,7 @@ public class MazeTest extends TestCase {
 		// adds dummy animal
 		Animal dummy = new Mouse(new Vector2D(3, 0));
 		maze.addAnimal(dummy);
+		//System.out.println(dummy);
 
 		assertTrue("Maze Animals should contain one Animal",
 				maze.getAnimals().size() == 1);
