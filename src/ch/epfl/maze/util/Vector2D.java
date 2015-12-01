@@ -21,12 +21,12 @@ public final class Vector2D {
 	 * @param y
 	 *            Vertical coordinate
 	 */
-
+	
 	public Vector2D(int x, int y) {
 		mX = x;
 		mY = y;
 	}
-
+	
 	/**
 	 * Adds two coordinates to the vector.
 	 * 

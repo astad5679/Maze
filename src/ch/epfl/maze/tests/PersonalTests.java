@@ -6,6 +6,23 @@ import ch.epfl.maze.physical.Maze;
 import ch.epfl.maze.physical.zoo.Mouse;
 import ch.epfl.maze.util.Vector2D;
 
+import ch.epfl.maze.graphics.Display;
+import ch.epfl.maze.physical.Daedalus;
+import ch.epfl.maze.physical.pacman.Blinky;
+import ch.epfl.maze.physical.pacman.Clyde;
+import ch.epfl.maze.physical.pacman.Inky;
+import ch.epfl.maze.physical.pacman.PacMan;
+import ch.epfl.maze.physical.pacman.Pinky;
+import ch.epfl.maze.physical.zoo.Bear;
+import ch.epfl.maze.physical.zoo.Hamster;
+import ch.epfl.maze.physical.zoo.Monkey;
+import ch.epfl.maze.physical.zoo.Panda;
+import ch.epfl.maze.simulation.DaedalusSimulation;
+import ch.epfl.maze.simulation.MazeSimulation;
+import ch.epfl.maze.simulation.Simulation;
+import ch.epfl.maze.util.LabyrinthGenerator;
+
+
 /**
  * Test case for {@code Maze} implementation.
  * 
@@ -40,7 +57,7 @@ public class PersonalTests {
 		//System.out.println(dummy);
 
 
-		// retrieves dummy anima from Maze
+		// retrieves dummy animal from Maze
 		//Animal retrieved = maze.getAnimals().get(0);
 
 
@@ -49,11 +66,10 @@ public class PersonalTests {
 		System.out.println(maze.hasAnimal(dummy));
 		System.out.println(maze.getAnimals().size());
 		System.out.println(maze.isSolved());
-
-			/**
-			 * Test case for several methods in {@code Maze}.
-			 */
-
+		
+		
+		
+		//System.out.println(test.x);
 
 		
 	}

@@ -3,7 +3,6 @@ package ch.epfl.maze.physical;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.epfl.maze.physical.zoo.Mouse;
 import ch.epfl.maze.util.Vector2D;
 
 /**
@@ -15,8 +14,8 @@ import ch.epfl.maze.util.Vector2D;
 
 public final class Maze extends World {
 	
-	private static ArrayList<Animal> animal = new ArrayList<Animal>();
-	private static List<Animal> animals; // = new ArrayList<Animal>();
+	private static ArrayList<Animal> startAnimals = new ArrayList<Animal>();
+	private static List<Animal> navAnimals = new ArrayList<Animal>();
 
 	/**
 	 * Constructs a Maze with a labyrinth structure.
@@ -32,27 +31,15 @@ public final class Maze extends World {
 
 	@Override
 	public boolean isSolved() {
-		animals = getAnimals();
-		return animals.isEmpty();
+		//navAnimals = getAnimals();
+		return navAnimals.isEmpty();
 		// TODO
 	}
 
 	@Override
 	public List<Animal> getAnimals() { //copy constructor
 		// TODO
-		animals = new ArrayList<Animal>();
-		Vector2D exit = this.getExit();
-		for (Animal creature : animal) { //Is this plausible?
-			//System.out.println(creature);
-			if (creature.getPosition().equals(exit)) {
-				continue;
-			}
-			else {
-				Animal nCreature = new Mouse(creature.getPosition());
-				animals.add(nCreature);
-			}
-		}
-		return animals;
+		return navAnimals;
 	}
 
 	/**
@@ -66,11 +53,10 @@ public final class Maze extends World {
 
 	public boolean hasAnimal(Animal a) {
 		// TODO
-		animals = getAnimals();
 		//make sure we understand differences of List vs. ArrayList
 		//maybe differentiate between one list containing the animals on the map, and the other in general so we can reset animals respectively
 			//ask certain questions: are all animals always present? Does this change in basis of how much you add, and then these animals can never be fully removed
-		return animals.contains(a);
+		return navAnimals.contains(a);
 	}
 
 	/**
@@ -81,11 +67,11 @@ public final class Maze extends World {
 	 */
 
 	public void addAnimal(Animal a) {
-		//ArrayList<Animal> animal = new ArrayList<Animal>();
 		//Same for over here
 		Vector2D start = this.getStart();
 		a.setPosition(start);
-		animal.add(a);
+		startAnimals.add(a);
+		navAnimals.add(a.copy());
 		// TODO
 	}
 
@@ -97,10 +83,10 @@ public final class Maze extends World {
 	 */
 
 	public void removeAnimal(Animal a) {
-		//ArrayList<Animal> animal = new ArrayList<Animal>();
 		//Need to test if the reference stuff has any impact on these commands
 		//getAnimals().remove(a);
-		a.setPosition(this.getExit());
+		//a.setPosition(this.getExit());
+		navAnimals.remove(a);
 		// TODO
 	}
 
@@ -108,11 +94,11 @@ public final class Maze extends World {
 	public void reset() {
 		//I need to pass an instance of the class as an argument to be able to use the getStart() getter
 		//Can we import any classes we want? We would technically need Vector2D
-		Vector2D start = this.getStart();
-		//Vector2D start = new Vector2D(0,0);
-		for (int i = 0; i < animal.size(); i++) {
-			Animal creature = animal.get(i);
-			creature.setPosition(start);
+		navAnimals = new ArrayList<Animal>();
+		
+		for (Animal creature : startAnimals) {
+			Animal newCreature = creature.copy();
+			navAnimals.add(newCreature);
 		}
 		
 		// TODO

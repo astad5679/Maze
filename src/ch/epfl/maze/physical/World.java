@@ -124,16 +124,16 @@ public abstract class World {
 		int y = position.getY();
 		int c = 0;
 		
-		if (getTile(x, y + 1) == 0){
+		if (isFree(x, y + 1)){
 			c++;
 		}
-		if (getTile(x, y - 1) == 0){
+		if (isFree(x, y - 1)){
 			c++;
 		}
-		if (getTile(x - 1, y) == 0){
+		if (isFree(x - 1, y)){
 			c++;
 		}
-		if (getTile(x + 1, y) == 0){
+		if (isFree(x + 1, y)){
 			c++;
 		}
 		
@@ -145,19 +145,19 @@ public abstract class World {
 		Direction[] direction = new Direction [c];
 		int i = 0;
 		
-		if (getTile(x, y + 1) == 0){
+		if (isFree(x, y + 1)){
 			direction[i] = Direction.DOWN;
 			i++;
 		}
-		if (getTile(x, y - 1) == 0){
+		if (isFree(x, y - 1)){
 			direction[i] = Direction.UP;
 			i++;
 		}
-		if (getTile(x - 1, y) == 0){
+		if (isFree(x - 1, y)){
 			direction[i] = Direction.LEFT;
 			i++;
 		}
-		if (getTile(x + 1, y) == 0){
+		if (isFree(x + 1, y)){
 			direction[i] = Direction.RIGHT;
 			i++;
 		}

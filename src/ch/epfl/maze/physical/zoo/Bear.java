@@ -41,6 +41,9 @@ public class Bear extends Animal {
 	@Override
 	public Animal copy() {
 		// TODO
-		return null;
+		Vector2D position = this.getPosition ();
+		Animal b = new Bear(position);
+		
+		return b;
 	}
 }

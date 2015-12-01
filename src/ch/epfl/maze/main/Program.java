@@ -56,18 +56,20 @@ public class Program {
 
 		// adds a Mouse
 		m.addAnimal(new Mouse(m.getStart()));
+		//System.out.print(m.getStart());
 
 		// adds a Monkey
-		m.addAnimal(new Monkey(m.getStart()));
+		//m.addAnimal(new Monkey(m.getStart()));
 
 		// adds a Hamster
-		m.addAnimal(new Hamster(m.getStart()));
+		//m.addAnimal(new Hamster(m.getStart()));
+		//System.out.print(m.getStart());
 
 		// adds a Bear (if this bonus is coded)
 		//m.addAnimal(new Bear(m.getStart()));
 
 		// adds a Panda
-		m.addAnimal(new Panda(m.getStart()));
+		//m.addAnimal(new Panda(m.getStart()));
 
 		return simulation;
 	}

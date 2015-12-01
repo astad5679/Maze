@@ -32,12 +32,21 @@ public class Hamster extends Animal {
 	@Override
 	public Direction move(Direction[] choices) {
 		// TODO
-		return Direction.NONE;
+		for (Direction choice : choices) {
+			System.out.print(choice);
+		}
+		System.out.println();
+		//this.update(choices[0]);
+		
+		return choices[0];
 	}
 
 	@Override
 	public Animal copy() {
+		Vector2D position = this.getPosition ();
+		Animal h = new Hamster(position);
+		
 		// TODO
-		return null;
+		return h;
 	}
 }

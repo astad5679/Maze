@@ -36,6 +36,9 @@ public class Monkey extends Animal {
 	@Override
 	public Animal copy() {
 		// TODO
-		return null;
+		Vector2D position = this.getPosition ();
+		Animal m = new Monkey(position);
+		
+		return m;
 	}
 }

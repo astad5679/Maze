@@ -38,6 +38,9 @@ public class Panda extends Animal {
 	@Override
 	public Animal copy() {
 		// TODO
-		return null;
+		Vector2D position = this.getPosition ();
+		Animal p = new Panda(position);
+		
+		return p;
 	}
 }
