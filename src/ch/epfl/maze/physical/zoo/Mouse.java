@@ -1,5 +1,6 @@
 package ch.epfl.maze.physical.zoo;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -15,8 +16,7 @@ import ch.epfl.maze.util.Vector2D;
 public class Mouse extends Animal {
 	
 	private static final Random RANDOM = new Random();
-	private static Vector2D lastChoice;
-	private static Direction previousDir;
+	private static Direction previousDir = Direction.NONE;
 	//int var = random.nextInt(2);
 
 	/**
@@ -40,37 +40,30 @@ public class Mouse extends Animal {
 	public Direction move(Direction[] choices) {
 		// TODO
 		
-		//for (Direction choice : choices) {
-		//	System.out.print(choice);
-		//}
-		//System.out.println();
 		
-		int index = RANDOM.nextInt(choices.length);
+		int index; // = RANDOM.nextInt(choices.length);
 		
-		if (choices.length == 1) { // && choices[0] != Direction.NONE) {
+		if (choices.length == 1 && choices[0] != Direction.NONE) {
+			previousDir(choices[0]);
 			return choices[0];
+			
+		} else {
+			do {
+				index = RANDOM.nextInt(choices.length);
+			} while(choices[index].isOpposite(previousDir)); 
 		}
-		
-		//System.out.println(index);
-		while (choices[index].equals(previousDir)) {
-			index = RANDOM.nextInt(choices.length);
-			//System.out.println("hi");
-		}
-		
 		
 		previousDir(choices[index]);
-		//this.update(choices[index]);
+		//System.out.println(choices[index]);
 		
 		return choices[index];
+			
 	}
 	
 	private void previousDir(Direction currentDir) {
 		previousDir = currentDir;
 	}
 	
-	private void lastChoice(Vector2D lastChoice) {
-		this.lastChoice = lastChoice;
-	}
 
 	@Override
 	public Animal copy() {

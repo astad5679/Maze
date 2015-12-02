@@ -59,7 +59,7 @@ public class Program {
 		//System.out.print(m.getStart());
 
 		// adds a Monkey
-		//m.addAnimal(new Monkey(m.getStart()));
+		m.addAnimal(new Monkey(m.getStart()));
 
 		// adds a Hamster
 		//m.addAnimal(new Hamster(m.getStart()));

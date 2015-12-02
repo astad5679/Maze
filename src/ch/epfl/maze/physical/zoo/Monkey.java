@@ -11,6 +11,8 @@ import ch.epfl.maze.util.Vector2D;
 
 public class Monkey extends Animal {
 
+	private static Direction previousDir = Direction.NONE;
+
 	/**
 	 * Constructs a monkey with a starting position.
 	 * 
@@ -30,9 +32,50 @@ public class Monkey extends Animal {
 	@Override
 	public Direction move(Direction[] choices) {
 		// TODO
+		
+		Direction nextDir = Direction.NONE;
+		
+		for (Direction dir : choices) {
+			if (dir == previousDir.rotateLeft()) {
+				return dir;
+			}
+		}
+		
+		for (Direction dir : choices) {
+			if (dir == Direction.NONE) {
+				return dir;
+			}
+		}
+		
+		
+		if (choices.length == 1 && choices[0] != Direction.NONE) {
+			previousDir(choices[0]);
+			return choices[0];
+		}
+		
+		/*
+		for (Direction dir : choices) {
+			if (!dir.isOpposite(previousDir)) {
+				if (choices.length == 1) {
+					
+				} else if (choices.length == 2) {
+					nextDir = dir.rotateLeft();
+				} else if (choices.length >= 3) {
+					
+				}
+			}
+		}
+		*/
+		
+		previousDir(nextDir);
+		
 		return Direction.NONE;
 	}
 
+	private void previousDir(Direction currentDir) {
+		previousDir = currentDir;
+	}
+	
 	@Override
 	public Animal copy() {
 		// TODO

@@ -23,7 +23,7 @@ abstract public class Animal {
 	public Animal(Vector2D position){
 		x = position.getX();
 		y = position.getY();	
-		position = new Vector2D(x, y);
+		this.position = new Vector2D(x, y);
 	}
 	
 	

@@ -32,10 +32,10 @@ public class Hamster extends Animal {
 	@Override
 	public Direction move(Direction[] choices) {
 		// TODO
-		for (Direction choice : choices) {
-			System.out.print(choice);
-		}
-		System.out.println();
+//		for (Direction choice : choices) {
+//			System.out.print(choice);
+//		}
+//		System.out.println();
 		//this.update(choices[0]);
 		
 		return choices[0];
