@@ -14,8 +14,8 @@ import ch.epfl.maze.util.Vector2D;
 
 public final class Maze extends World {
 	
-	private static ArrayList<Animal> startAnimals = new ArrayList<Animal>();
-	private static List<Animal> navAnimals = new ArrayList<Animal>();
+	private ArrayList<Animal> startAnimals = new ArrayList<Animal>();
+	private List<Animal> navAnimals = new ArrayList<Animal>();
 
 	/**
 	 * Constructs a Maze with a labyrinth structure.
@@ -39,6 +39,7 @@ public final class Maze extends World {
 	@Override
 	public List<Animal> getAnimals() { //copy constructor
 		// TODO
+		//System.out.println(navAnimals.get(0));
 		return navAnimals;
 	}
 

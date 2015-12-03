@@ -10,8 +10,8 @@ import ch.epfl.maze.util.Vector2D;
  */
 
 abstract public class Animal {
-	private static int x, y;
-	private static Vector2D position; 
+	private int x, y;
+	private Vector2D position; 
 	
 	/**
 	 * Constructs an animal with a specified position.

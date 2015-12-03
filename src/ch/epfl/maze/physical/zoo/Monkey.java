@@ -1,5 +1,7 @@
 package ch.epfl.maze.physical.zoo;
 
+import java.util.Random;
+
 import ch.epfl.maze.physical.Animal;
 import ch.epfl.maze.util.Direction;
 import ch.epfl.maze.util.Vector2D;
@@ -11,7 +13,7 @@ import ch.epfl.maze.util.Vector2D;
 
 public class Monkey extends Animal {
 
-	private static Direction previousDir = Direction.NONE;
+	private Direction currentDir = Direction.NONE;
 
 	/**
 	 * Constructs a monkey with a starting position.
@@ -34,46 +36,59 @@ public class Monkey extends Animal {
 		// TODO
 		
 		Direction nextDir = Direction.NONE;
+//		System.out.println("Current Direction: " + previousDir);
 		
-		for (Direction dir : choices) {
-			if (dir == previousDir.rotateLeft()) {
-				return dir;
-			}
+		Direction[] relativeChoices = currentDir.relativeDirections(choices); //converts all the possible directions in "choices" to their respective choice relative to the current direction
+
+		if (possibleDir(relativeChoices, Direction.LEFT)) { //calls the method possibleDir() while changing the choice parameter of choice
+			//return currentDir;							//this basically allows us to respect the priority of certain choices ("if left is available, then take that direction, otherwise go to the next priority")
 		}
 		
-		for (Direction dir : choices) {
-			if (dir == Direction.NONE) {
-				return dir;
-			}
+		//To comment on the if else conditions we used here:
+		//	Personally, this does seem a little sketchy, because these conditions don't actually execute any code. Clearly, if one of these passes, then all the others
+		//	are skipped, but it still seems like a wasted function. It seemed less redundant to return the next direction at the end of the method just because
+		//	it is exactly what the method needs to output (and we would have to place it anyways if, for some reason, all the if conditions failed).
+		else if (possibleDir(relativeChoices, Direction.UP)) {
+			//return currentDir;
 		}
 		
-		
-		if (choices.length == 1 && choices[0] != Direction.NONE) {
-			previousDir(choices[0]);
-			return choices[0];
+		else if (possibleDir(relativeChoices, Direction.RIGHT)) {
+			//return currentDir;
+		}
+				
+		else if (choices.length == 1 && choices[0] != Direction.NONE) { //if we only have the choice to go backwards, then do so
+//			System.out.println("Choice: " + choices[0]);
+			nextDir = choices[0];
+//			System.out.println("Relative choice: " + nextDir);
+			currentDir(nextDir);
+			//return currentDir;
 		}
 		
-		/*
-		for (Direction dir : choices) {
-			if (!dir.isOpposite(previousDir)) {
-				if (choices.length == 1) {
-					
-				} else if (choices.length == 2) {
-					nextDir = dir.rotateLeft();
-				} else if (choices.length >= 3) {
-					
-				}
-			}
+		else if (currentDir == Direction.NONE) { //if the starting point is in the middle of nowhere (or between two horizontal walls), pick a random direction
+			Random rand = new Random();
+			nextDir = choices[rand.nextInt(choices.length)];
+			currentDir(nextDir);
+			//return currentDir;
 		}
-		*/
 		
-		previousDir(nextDir);
-		
-		return Direction.NONE;
+		return currentDir; //Since currentDir is now equivalent to the next direction, we can just return this 
 	}
 
-	private void previousDir(Direction currentDir) {
-		previousDir = currentDir;
+	private void currentDir(Direction nextDir) {
+		currentDir = nextDir;
+	}
+	
+	private boolean possibleDir(Direction[] relativeChoices, Direction dir) {
+		for (Direction choice : relativeChoices) {
+			if (choice == dir) {
+				//System.out.println("Choice: " + choice);
+				Direction nextDir = currentDir.unRelativeDirection(dir);
+				//System.out.println("Relative choice: " + nextDir);
+				currentDir(nextDir);
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	@Override

@@ -15,8 +15,8 @@ import ch.epfl.maze.util.Vector2D;
 
 public class Mouse extends Animal {
 	
-	private static final Random RANDOM = new Random();
-	private static Direction previousDir = Direction.NONE;
+	private final Random RANDOM = new Random();
+	private Direction previousDir = Direction.NONE;
 	//int var = random.nextInt(2);
 
 	/**
@@ -40,27 +40,29 @@ public class Mouse extends Animal {
 	public Direction move(Direction[] choices) {
 		// TODO
 		
-		
-		int index; // = RANDOM.nextInt(choices.length);
-		
-		if (choices.length == 1 && choices[0] != Direction.NONE) {
-			previousDir(choices[0]);
-			return choices[0];
+		if (choices.length == 1 && choices[0] != Direction.NONE) { //This method disregards the main aspect of the mouse which is, as prescribed, never to retrace its steps
+			previousDir(choices[0]);							   //considering that it does need to turn around if at a dead end, we admit that in the case where only 
+			return choices[0];									   //one direction is available, he will choose that one no matter what
 			
-		} else {
-			do {
-				index = RANDOM.nextInt(choices.length);
-			} while(choices[index].isOpposite(previousDir)); 
+		} 
+		
+		ArrayList<Direction> mouseChoices = new ArrayList<Direction>();
+		for (Direction choice : choices) {
+			if (!choice.isOpposite(previousDir)) {
+				mouseChoices.add(choice);
+			}
 		}
 		
-		previousDir(choices[index]);
-		//System.out.println(choices[index]);
+		int index = RANDOM.nextInt(mouseChoices.size()); //We only generate a random index when the taboo direction has been removed from the new list of choices, this
+														 //allows us to get rid of a potentially infinite while loop
+		previousDir(mouseChoices.get(index)); 
 		
-		return choices[index];
+		return mouseChoices.get(index);
+		
 			
 	}
 	
-	private void previousDir(Direction currentDir) {
+	private void previousDir(Direction currentDir) { //This method simply updates the value of the previous direction with the one of the current one
 		previousDir = currentDir;
 	}
 	

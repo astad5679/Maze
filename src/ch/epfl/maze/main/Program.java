@@ -50,7 +50,7 @@ public class Program {
 	 */
 
 	public static Simulation getMazeSimulation() {
-		int[][] labyrinth = LabyrinthGenerator.getSmall();
+		int[][] labyrinth = LabyrinthGenerator.getMedium();
 		Maze m = new Maze(labyrinth);
 		Simulation simulation = new MazeSimulation(m);
 

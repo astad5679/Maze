@@ -1,5 +1,7 @@
 package ch.epfl.maze.util;
 
+import java.util.ArrayList;
+
 /**
  * Immutable 2-dimensional vector (<i>x</i>, <i>y</i>).
  * 
@@ -12,6 +14,7 @@ public final class Vector2D {
 
 	/* 2-dimension coordinates */
 	private final int mX, mY;
+	private ArrayList<Direction> possibleDir; 
 
 	/**
 	 * Constructs a 2-dimensional vector.
@@ -25,6 +28,17 @@ public final class Vector2D {
 	public Vector2D(int x, int y) {
 		mX = x;
 		mY = y;
+	}
+	
+	public void setDir(Direction[] choices) {
+		possibleDir = new ArrayList<Direction>(); 
+		for (Direction choice : choices) {
+			possibleDir.add(choice);
+		}
+	}
+	
+	public void removeDir(Direction choice) {
+		possibleDir.remove(choice);
 	}
 	
 	/**

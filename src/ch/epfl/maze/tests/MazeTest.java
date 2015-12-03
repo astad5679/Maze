@@ -43,7 +43,7 @@ public class MazeTest extends TestCase {
 		assertTrue("Maze Animals should contain one Animal",
 				maze.getAnimals().size() == 1);
 
-		// retrieves dummy anima from Maze
+		// retrieves dummy animal from Maze
 		Animal retrieved = maze.getAnimals().get(0);
 
 		assertTrue("Maze should contain the Mouse, even at the exit",
