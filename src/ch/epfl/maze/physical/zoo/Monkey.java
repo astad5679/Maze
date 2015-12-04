@@ -35,7 +35,8 @@ public class Monkey extends Animal {
 	public Direction move(Direction[] choices) {
 		// TODO
 		
-		Direction nextDir = Direction.NONE;
+		Direction nextDir = Direction.NONE; //Animals are placed with no initial trajectory, so it would be wrong to state that their default next direction where to be a
+											//relative UP or something. ALL direction choices are made depending on the animals movements, including the starting one
 //		System.out.println("Current Direction: " + previousDir);
 		
 		Direction[] relativeChoices = currentDir.relativeDirections(choices); //converts all the possible directions in "choices" to their respective choice relative to the current direction
@@ -44,9 +45,9 @@ public class Monkey extends Animal {
 			//return currentDir;							//this basically allows us to respect the priority of certain choices ("if left is available, then take that direction, otherwise go to the next priority")
 		}
 		
-		//To comment on the if else conditions we used here:
+		//To comment on the if-else conditions we used here:
 		//	Personally, this does seem a little sketchy, because these conditions don't actually execute any code. Clearly, if one of these passes, then all the others
-		//	are skipped, but it still seems like a wasted function. It seemed less redundant to return the next direction at the end of the method just because
+		//	are skipped, but it still seems like a wasted function. However, it seemed less redundant to return the next direction at the end of the method just because
 		//	it is exactly what the method needs to output (and we would have to place it anyways if, for some reason, all the if conditions failed).
 		else if (possibleDir(relativeChoices, Direction.UP)) {
 			//return currentDir;

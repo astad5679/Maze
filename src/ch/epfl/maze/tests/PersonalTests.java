@@ -3,6 +3,7 @@ package ch.epfl.maze.tests;
 
 import ch.epfl.maze.physical.Animal;
 import ch.epfl.maze.physical.Maze;
+import ch.epfl.maze.physical.World;
 import ch.epfl.maze.physical.zoo.Mouse;
 import ch.epfl.maze.util.Vector2D;
 
@@ -38,39 +39,42 @@ public class PersonalTests {
 
 	public static void main(String[] args) {
 		
-		Maze maze = new Maze(LABYRINTH);
-
-		// initial maze should be solved
-		System.out.println(maze.isSolved());
-		System.out.println(maze.getAnimals().size());
-
-		// adds dummy animal
-		Animal dummy = new Mouse(new Vector2D(3, 0));
-		maze.addAnimal(dummy);
-		System.out.println(maze.getAnimals().size());
+//		Maze maze = new Maze(LABYRINTH);
+//
+//		// initial maze should be solved
+//		System.out.println(maze.isSolved());
+//		System.out.println(maze.getAnimals().size());
+//
+//		// adds dummy animal
+//		Animal dummy = new Mouse(new Vector2D(3, 0));
+//		maze.addAnimal(dummy);
+//		System.out.println(maze.getAnimals().size());
+//		
+//		Animal retrieved = maze.getAnimals().get(0);
+//
+//		System.out.println(maze.hasAnimal(dummy));
+//		System.out.println(retrieved == dummy);
+//		System.out.println(maze.isSolved());
+//		//System.out.println(dummy);
+//
+//
+//		// retrieves dummy animal from Maze
+//		//Animal retrieved = maze.getAnimals().get(0);
+//
+//
+//		// removes dummy animal
+//		maze.removeAnimal(dummy);
+//		System.out.println(maze.hasAnimal(dummy));
+//		System.out.println(maze.getAnimals().size());
+//		System.out.println(maze.isSolved());
+//		
+//		
+//		
+//		//System.out.println(test.x);
 		
-		Animal retrieved = maze.getAnimals().get(0);
-
-		System.out.println(maze.hasAnimal(dummy));
-		System.out.println(retrieved == dummy);
-		System.out.println(maze.isSolved());
-		//System.out.println(dummy);
-
-
-		// retrieves dummy animal from Maze
-		//Animal retrieved = maze.getAnimals().get(0);
-
-
-		// removes dummy animal
-		maze.removeAnimal(dummy);
-		System.out.println(maze.hasAnimal(dummy));
-		System.out.println(maze.getAnimals().size());
-		System.out.println(maze.isSolved());
+		int test = World.getWidth();
 		
-		
-		
-		//System.out.println(test.x);
-
+		System.out.println(test);
 		
 	}
 

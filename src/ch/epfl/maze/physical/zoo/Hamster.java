@@ -20,7 +20,6 @@ public class Hamster extends Animal {
 	private ArrayList<Vector2D> deadEnds = new ArrayList<Vector2D>();
 	private Direction previousDir = Direction.NONE;
 	private int counter = 1;
-	private ArrayList<ArrayList<Vector2D>> crossings;
 
 	/**
 	 * Constructs a hamster with a starting position.
@@ -42,53 +41,47 @@ public class Hamster extends Animal {
 	@Override
 	public Direction move(Direction[] choices) {
 		// TODO
-
-		int index = RANDOM.nextInt(choices.length);
 		
-		ArrayList<Vector2D> choicesPos = dirToVect(choices);
+		ArrayList<Direction> choicesPos = dirToVect(choices);
+		Direction nextDir;
 		
-		while(choices[index].isOpposite(previousDir) || (deadEnds.contains(this.getPosition().addDirectionTo(choices[index])) && choices.length == 3)) {
-			if (choices.length == 1 && choices[0] != Direction.NONE) {
-				previousDir(choices[0]);
-				counter = 2;
-				return choices[0];
-			} else if (choices.length == 0) {
-				return Direction.NONE;
-			} //else {		
-			index = RANDOM.nextInt(choices.length);
-			//}
+//		System.out.println("Choices length: " + choices.length);
+		if (choices[0] == Direction.NONE) {
+			nextDir = Direction.NONE;
+		} else if (choicesPos.size() == 0) {
+			nextDir = choices[0];
+			counter = 2;
+		} else {
+			int index = RANDOM.nextInt(choicesPos.size());
+			nextDir = choicesPos.get(index);
 		}
 		
-//				System.out.print(this.getPosition());
-//				if (choices.length >= 3) {
-//					lastChoice (choices[index]);
-//					System.out.println(" remembered: " + lastChoice[0]);
-//				}
-				
-		previousDir(choices[index]);
-				//System.out.println(choices[index]);
+		previousDir(nextDir);
 		
-		
-		if (choices.length >= 3) {
+		if (choicesPos.size() > 1) {
+			currentIntersection(nextDir);
 			counter = 1;
-			currentIntersection(choices[index]);
-			//System.out.println("Current interesection:" + choices[index]);
 		}
 		
-		if (checkEnd()) {
-			if (counter == 1) {
-				deadEnds(this.getPosition());
-				System.out.println("Dead end: " + this.getPosition());
-				counter = 2;
-			}
+		
+//		System.out.println("Modified choices length: " + choicesPos.size());
+
+		
+		 
+//		else if (choicesPos.size() == 1) {
+//			counter = 2;
+//		}
+		
+//		System.out.println("Supposed intersection: " + currentIntersection[0]);
+//		System.out.println("Current position: " + this.getPosition());
+//		System.out.println("Modified choices length: " + choicesPos.size());
+//		System.out.println("Counter: " + counter);
+		
+		if (counter == 2 && checkEnd()) {
+			deadEnds(currentIntersection[0]);
 		}
 		
-		//System.out.println(checkEnd());
-		
-		
-		//counter = 1;
-		
-		return choices[index];
+		return nextDir;
 					
 	}
 			
@@ -97,8 +90,8 @@ public class Hamster extends Animal {
 	}
 					
 	private void currentIntersection(Direction currentDir) {
-		currentIntersection[0] = (this.getPosition().addDirectionTo(currentDir));
-		System.out.println("Current interesection:" + this.getPosition().addDirectionTo(currentDir));
+		currentIntersection[0] = this.getPosition().addDirectionTo(currentDir);
+		//System.out.println("Current interesection:" + this.getPosition().addDirectionTo(currentDir));
 	}
 	
 	private boolean checkEnd() {
@@ -109,20 +102,24 @@ public class Hamster extends Animal {
 		//return false;
 	}
 	
-	private ArrayList<Vector2D> dirToVect(Direction[] choices) { //This method converts all the possible choices to what positions they represent in the labyrinth
+	private ArrayList<Direction> dirToVect(Direction[] choices) { //This method converts all the possible choices to what positions they represent in the labyrinth
 		Vector2D currentPos = this.getPosition();
-		ArrayList<Vector2D> choicesPos = new ArrayList<Vector2D>();
+		ArrayList<Direction> choicesPos = new ArrayList<Direction>();
+//		System.out.print("New choices: ");
 		for (Direction choice : choices) {
 			Vector2D choiceVect = currentPos.addDirectionTo(choice);
-			if (!deadEnds.contains(choiceVect)) {
-				choicesPos.add(choiceVect); 
+			if (!deadEnds.contains(choiceVect) && !choice.isOpposite(previousDir)) {
+//				System.out.print(choice + ", ");
+				choicesPos.add(choice); 
 			}
 		}
+//		System.out.println();
 		return choicesPos;
 	}
 	
 	private void deadEnds(Vector2D deadEnd) {
 		deadEnds.add(deadEnd);
+		System.out.println("Dead End: " + deadEnd);
 	}
 
 	@Override
