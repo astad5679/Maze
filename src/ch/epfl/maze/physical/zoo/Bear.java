@@ -14,7 +14,7 @@ import ch.epfl.maze.util.Vector2D;
 public class Bear extends Animal {
 	
 	private Direction currentDir = Direction.NONE;
-	private Direction favDir;
+	private Direction favDir = Direction.NONE;
 	private final Random rand = new Random();
 	private int counter = 0;
 	private int obstacleCheck = 1;
@@ -28,8 +28,9 @@ public class Bear extends Animal {
 
 	public Bear(Vector2D position) {
 		super(position);
-		favDir = Direction.values()[rand.nextInt(4)];
-		System.out.println("Fav: " + favDir);
+		//favDir = Direction.values()[rand.nextInt(4)];
+		//currentDir = favDir;
+		//System.out.println("Fav: " + favDir);
 		// TODO
 	}
 
@@ -50,6 +51,14 @@ public class Bear extends Animal {
 	@Override
 	public Direction move(Direction[] choices) {
 		// TODO
+		if (favDir == Direction.NONE) {
+			favDir = choices[rand.nextInt(choices.length)];
+			//currentDir = favDir;
+			System.out.println("Fav: " + favDir);
+			for (Direction choice : choices) {
+				System.out.println(choice);
+			}
+		}
 		
 		Direction nextDir = Direction.NONE; //Animals are placed with no initial trajectory, so it would be wrong to state that their default next direction where to be a
 											//relative UP or something. ALL direction choices are made depending on the animals movements, including the starting one
@@ -68,8 +77,13 @@ public class Bear extends Animal {
 			} else {
 				obstacleCheck = 2;
 				counter = 1;
-				currentDir = currentDir.unRelativeDirection(Direction.RIGHT);
-				return currentDir;
+				if (possibleDir(relativeChoices, Direction.RIGHT)) {
+					return currentDir;
+				}
+				else {
+					currentDir = currentDir.reverse();
+					return currentDir;
+				}
 			}
 		}
 		

@@ -36,8 +36,8 @@ public class Program {
 	public static void main(String[] args) {
 		Simulation simulation;
 
+//		simulation = getMazeSimulation();
 		simulation = getDaedalusSimulation();
-		//simulation = getDaedalusSimulation();
 
 		Display display = new Display(simulation);
 		display.run();
@@ -50,26 +50,26 @@ public class Program {
 	 */
 
 	public static Simulation getMazeSimulation() {
-		int[][] labyrinth = LabyrinthGenerator.getMedium();
+		int[][] labyrinth = LabyrinthGenerator.getDebugBear1();
 		Maze m = new Maze(labyrinth);
 		Simulation simulation = new MazeSimulation(m);
 
 		// adds a Mouse
-		m.addAnimal(new Mouse(m.getStart()));
+		//m.addAnimal(new Mouse(m.getStart()));
 		//System.out.print(m.getStart());
 
 		// adds a Monkey
-		m.addAnimal(new Monkey(m.getStart()));
+		//m.addAnimal(new Monkey(m.getStart()));
 
 		// adds a Hamster
-		m.addAnimal(new Hamster(m.getStart()));
+		//m.addAnimal(new Hamster(m.getStart()));
 		//System.out.print(m.getStart());
 
 		// adds a Bear (if this bonus is coded)
 		m.addAnimal(new Bear(m.getStart()));
 
 		// adds a Panda
-		m.addAnimal(new Panda(m.getStart()));
+		//m.addAnimal(new Panda(m.getStart()));
 
 		return simulation;
 	}

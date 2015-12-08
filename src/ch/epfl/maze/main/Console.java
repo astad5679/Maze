@@ -32,7 +32,7 @@ import ch.epfl.maze.util.Vector2D;
 public class Console {
 
 	/** Number of simulations launched. */
-	public static final int NUMBER_OF_SIMULATIONS = 100;
+	public static final int NUMBER_OF_SIMULATIONS = 50;
 
 	public static void main(String[] args) {
 		Simulation simulation;
