@@ -14,7 +14,7 @@ import ch.epfl.maze.util.Vector2D;
 
 public final class Maze extends World {
 	
-	private ArrayList<Animal> startAnimals = new ArrayList<Animal>();
+	private List<Animal> endAnimals = new ArrayList<Animal>();
 	private List<Animal> navAnimals = new ArrayList<Animal>();
 
 	/**
@@ -71,8 +71,8 @@ public final class Maze extends World {
 		//Same for over here
 		Vector2D start = this.getStart();
 		a.setPosition(start);
-		startAnimals.add(a);
-		navAnimals.add(a.copy());
+		//endAnimals.add(a);
+		navAnimals.add(a);
 		// TODO
 	}
 
@@ -88,6 +88,7 @@ public final class Maze extends World {
 		//getAnimals().remove(a);
 		//a.setPosition(this.getExit());
 		navAnimals.remove(a);
+		endAnimals.add(a);
 		// TODO
 	}
 
@@ -95,12 +96,18 @@ public final class Maze extends World {
 	public void reset() {
 		//I need to pass an instance of the class as an argument to be able to use the getStart() getter
 		//Can we import any classes we want? We would technically need Vector2D
+		for (Animal creature : navAnimals) {
+			endAnimals.add(creature);
+		}
+		
 		navAnimals = new ArrayList<Animal>();
 		
-		for (Animal creature : startAnimals) {
+		for (Animal creature : endAnimals) {
 			Animal newCreature = creature.copy();
 			navAnimals.add(newCreature);
 		}
+		
+		
 		
 		// TODO
 	}

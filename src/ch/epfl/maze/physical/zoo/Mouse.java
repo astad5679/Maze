@@ -71,7 +71,7 @@ public class Mouse extends Animal {
 	public Animal copy() {
 		// TODO
 		Vector2D position = this.getPosition ();
-		Animal m = new Mouse(position);
+		Mouse m = new Mouse(position);
 		
 		return m;
 	}

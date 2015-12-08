@@ -16,7 +16,6 @@ import ch.epfl.maze.util.Vector2D;
 public class Hamster extends Animal {
 
 	private final Random RANDOM = new Random();
-	private Vector2D[] currentIntersection = new Vector2D[1];
 	private ArrayList<Vector2D> deadEnds = new ArrayList<Vector2D>();
 	private Direction previousDir = Direction.NONE;
 	private int counter = 1;
@@ -40,88 +39,79 @@ public class Hamster extends Animal {
 
 	@Override
 	public Direction move(Direction[] choices) {
-		// TODO
-		
 		ArrayList<Direction> choicesPos = dirToVect(choices);
 		Direction nextDir;
 		
-//		System.out.println("Choices length: " + choices.length);
-		if (choices[0] == Direction.NONE) {
-			nextDir = Direction.NONE;
-		} else if (choicesPos.size() == 0) {
-			nextDir = choices[0];
-			counter = 2;
-		} else {
-			int index = RANDOM.nextInt(choicesPos.size());
-			nextDir = choicesPos.get(index);
-		}
-		
-		previousDir(nextDir);
-		
-		if (choicesPos.size() > 1) {
-			currentIntersection(nextDir);
-			counter = 1;
-		}
-		
-		
-//		System.out.println("Modified choices length: " + choicesPos.size());
-
-		
-		 
-//		else if (choicesPos.size() == 1) {
-//			counter = 2;
-//		}
-		
-//		System.out.println("Supposed intersection: " + currentIntersection[0]);
-//		System.out.println("Current position: " + this.getPosition());
-//		System.out.println("Modified choices length: " + choicesPos.size());
-//		System.out.println("Counter: " + counter);
-		
-		if (counter == 2 && checkEnd()) {
-			deadEnds(currentIntersection[0]);
-		}
-		
-		return nextDir;
-					
-	}
+		if (choices.length > 2){	
+			//nel caso non ci siano più vie libere mi fermo
+			if (choicesPos.size() == 0 && counter == 2){	
+//				System.out.println(deadEnds.size());
+				return Direction.NONE;
+			}
+			//aggiungo il vicolo cieco alla lista (se counter == 2)
+			if (counter == 2){
+				//se arrivo da un vicolo cieco e ho una sola strada possibile, allora questo incrocio sarà un vicolo cieco
+				if (choicesPos.size() == 1){
+					Vector2D deadEnd = this.getPosition().addDirectionTo(previousDir.reverse());
+					deadEnds.add(deadEnd);
+//					System.out.println(deadEnd);
+				}
+				//se arrivo da un vicolo cieco e ho altre scelte, tolgo semplicemente la scelta da quelle possibili del vicolo cieco
+				else {
+					Vector2D deadEnd = this.getPosition().addDirectionTo(previousDir.reverse());
+					deadEnds.add(deadEnd);
+//					System.out.println(deadEnd);
+					counter = 1;
+				}
+			}
 			
-	private void previousDir(Direction currentDir) {
-		previousDir = currentDir;
-	}
-					
-	private void currentIntersection(Direction currentDir) {
-		currentIntersection[0] = this.getPosition().addDirectionTo(currentDir);
-		//System.out.println("Current interesection:" + this.getPosition().addDirectionTo(currentDir));
-	}
-	
-	private boolean checkEnd() {
-		Vector2D position = this.getPosition();
-		return (position.equals(currentIntersection[0]));
-		//System.out.println(currentIntersection[0].getX() == position.getX());
-		//return (currentIntersection[0].getX() == position.getX() && currentIntersection[0].getY() == position.getY());
-		//return false;
+			//se non ho scelte torno da dove sono venuto e metto il counter == 2
+			if (choicesPos.size() == 0){					  	
+				counter = 2;
+				nextDir = previousDir.reverse();
+			
+			//se ho più scelte scelgo a caso
+			} else {
+				int index = RANDOM.nextInt(choicesPos.size()); 
+				nextDir = choicesPos.get(index);
+			}
+			
+			previousDir = nextDir;
+			return nextDir;
+		
+		// Non mi trovo in un incrocio
+		} else {								
+			// Se sono in un vicolo cieco torno in dietro e metto counter == 2
+			if (choicesPos.size() == 0){						
+				counter = 2;
+				nextDir = previousDir.reverse();
+			} else {
+			// scelgo la scelta non contraria a quella in cui sto viaggiango
+			ArrayList<Direction> doubleChoices = new ArrayList<Direction>(); 
+			for (Direction choice : choices){
+				if (!choice.isOpposite(previousDir)) {
+					doubleChoices.add(choice);
+				}
+			}
+			nextDir = doubleChoices.get(0);
+		}
+			previousDir = nextDir;
+			return nextDir;
+		}
 	}
 	
 	private ArrayList<Direction> dirToVect(Direction[] choices) { //This method converts all the possible choices to what positions they represent in the labyrinth
 		Vector2D currentPos = this.getPosition();
 		ArrayList<Direction> choicesPos = new ArrayList<Direction>();
-//		System.out.print("New choices: ");
 		for (Direction choice : choices) {
 			Vector2D choiceVect = currentPos.addDirectionTo(choice);
-			if (!deadEnds.contains(choiceVect) && !choice.isOpposite(previousDir)) {
-//				System.out.print(choice + ", ");
+			if (!deadEnds.contains(choiceVect) &&  !choice.isOpposite(previousDir)) {
 				choicesPos.add(choice); 
 			}
 		}
-//		System.out.println();
 		return choicesPos;
 	}
 	
-	private void deadEnds(Vector2D deadEnd) {
-		deadEnds.add(deadEnd);
-		System.out.println("Dead End: " + deadEnd);
-	}
-
 	@Override
 	public Animal copy() {
 		Vector2D position = this.getPosition ();

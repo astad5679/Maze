@@ -96,7 +96,7 @@ public class Monkey extends Animal {
 	public Animal copy() {
 		// TODO
 		Vector2D position = this.getPosition ();
-		Animal m = new Monkey(position);
+		Monkey m = new Monkey(position);
 		
 		return m;
 	}

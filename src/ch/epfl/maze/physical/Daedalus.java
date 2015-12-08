@@ -3,6 +3,7 @@ package ch.epfl.maze.physical;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
  * Daedalus in which predators hunt preys. Once a prey has been caught by a
  * predator, it will be removed from the daedalus.
@@ -10,7 +11,14 @@ import java.util.List;
  */
 
 public final class Daedalus extends World {
-
+	private List<Predator> predators = new ArrayList<Predator>();
+	private List<Predator> predatorsDupe = new ArrayList<Predator>();
+	private List<Prey> prey = new ArrayList<Prey>();
+	private List<Prey> preyDupe = new ArrayList<Prey>();
+	//do I define these as their precise instance or not? Animal v Predator/prey
+	
+	
+	
 	/**
 	 * Constructs a Daedalus with a labyrinth structure
 	 * 
@@ -26,7 +34,7 @@ public final class Daedalus extends World {
 	@Override
 	public boolean isSolved() {
 		// TODO
-		return false;
+		return prey.isEmpty();
 	}
 
 	/**
@@ -37,6 +45,8 @@ public final class Daedalus extends World {
 	 */
 
 	public void addPredator(Predator p) {
+		predators.add(p);
+		predatorsDupe.add((Predator) p.copy());
 		// TODO
 	}
 
@@ -48,6 +58,8 @@ public final class Daedalus extends World {
 	 */
 
 	public void addPrey(Prey p) {
+		prey.add(p);
+		preyDupe.add((Prey) p.copy());
 		// TODO
 	}
 
@@ -60,6 +72,7 @@ public final class Daedalus extends World {
 
 	public void removePredator(Predator p) {
 		// TODO
+		predators.remove(p);
 	}
 
 	/**
@@ -71,12 +84,23 @@ public final class Daedalus extends World {
 
 	public void removePrey(Prey p) {
 		// TODO
+		prey.remove(p);
+		
 	}
 
 	@Override
 	public List<Animal> getAnimals() {
 		// TODO
-		return null;
+		List<Animal> animals = new ArrayList<Animal>();
+		
+		for (Prey prey : prey) {
+			animals.add(prey);
+		}
+		for (Predator predator : predators) {
+			animals.add(predator);
+		}
+		
+		return animals;
 	}
 
 	/**
@@ -87,7 +111,7 @@ public final class Daedalus extends World {
 
 	public List<Predator> getPredators() {
 		// TODO
-		return new ArrayList<Predator>();
+		return predators;
 	}
 
 	/**
@@ -98,7 +122,7 @@ public final class Daedalus extends World {
 
 	public List<Prey> getPreys() {
 		// TODO
-		return new ArrayList<Prey>();
+		return prey;
 	}
 
 	/**
@@ -112,7 +136,7 @@ public final class Daedalus extends World {
 
 	public boolean hasPredator(Predator p) {
 		// TODO
-		return false;
+		return predators.contains(p);
 	}
 
 	/**
@@ -126,11 +150,20 @@ public final class Daedalus extends World {
 
 	public boolean hasPrey(Prey p) {
 		// TODO
-		return false;
+		return prey.contains(p);
 	}
 
 	@Override
 	public void reset() {
-		// TODO
+		prey = new ArrayList<Prey>();
+		predators = new ArrayList<Predator>();
+		
+		for (Prey creature : preyDupe) {
+			prey.add((Prey) creature.copy());
+		}
+		
+		for (Predator creature : predatorsDupe) {
+			predators.add((Predator) creature.copy());
+		}
 	}
 }

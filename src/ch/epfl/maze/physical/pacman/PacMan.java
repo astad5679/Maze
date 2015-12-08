@@ -27,6 +27,7 @@ public class PacMan extends Prey {
 	@Override
 	public Animal copy() {
 		// TODO
-		return null;
+		PacMan p = new PacMan(this.getPosition());
+		return p;
 	}
 }

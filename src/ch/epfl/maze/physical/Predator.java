@@ -13,6 +13,7 @@ abstract public class Predator extends Animal {
 	/* constants relative to the Pac-Man game */
 	public static final int SCATTER_DURATION = 14;
 	public static final int CHASE_DURATION = 40;
+	//implement another variable to count steps?
 
 	/**
 	 * Constructs a predator with a specified position.

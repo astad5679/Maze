@@ -34,6 +34,7 @@ public class Blinky extends Predator {
 	@Override
 	public Animal copy() {
 		// TODO
-		return null;
+		Blinky b = new Blinky(this.getPosition());
+		return b;
 	}
 }
