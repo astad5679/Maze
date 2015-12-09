@@ -69,6 +69,7 @@ public class Monkey extends Animal {
 			Random rand = new Random();
 			nextDir = choices[rand.nextInt(choices.length)];
 			currentDir(nextDir);
+			System.out.println("here!");
 			//return currentDir;
 		}
 		

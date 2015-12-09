@@ -17,7 +17,7 @@ public class Bear extends Animal {
 	private Direction favDir = Direction.NONE;
 	private final Random rand = new Random();
 	private int counter = 0;
-	private int obstacleCheck = 1;
+	private int obstacleCheck = 2;
 
 	/**
 	 * Constructs a bear with a starting position.
@@ -51,23 +51,38 @@ public class Bear extends Animal {
 	@Override
 	public Direction move(Direction[] choices) {
 		// TODO
+		
+		System.out.println("current: " + currentDir);
+		Direction[] relativeChoices = currentDir.relativeDirections(choices);
+		
 		if (favDir == Direction.NONE) {
-			favDir = choices[rand.nextInt(choices.length)];
-			//currentDir = favDir;
+			favDir = relativeChoices[rand.nextInt(relativeChoices.length)];
+			currentDir = currentDir.unRelativeDirection(favDir);
 			System.out.println("Fav: " + favDir);
-			for (Direction choice : choices) {
-				System.out.println(choice);
+			System.out.print("choices: ");
+			for (Direction choice : relativeChoices) {
+				System.out.print(choice + ", ");
 			}
+			System.out.println();
 		}
 		
 		Direction nextDir = Direction.NONE; //Animals are placed with no initial trajectory, so it would be wrong to state that their default next direction where to be a
 											//relative UP or something. ALL direction choices are made depending on the animals movements, including the starting one
 //		System.out.println("Current Direction: " + previousDir);
 		
-		Direction[] relativeChoices = currentDir.relativeDirections(choices); //converts all the possible directions in "choices" to their respective choice relative to the current direction
+//		Direction[] relativeChoices = currentDir.relativeDirections(choices); //converts all the possible directions in "choices" to their respective choice relative to the current direction
+//		for (Direction relative : relativeChoices) {
+//			System.out.print(relative + ", ");
+//		}
+//		System.out.println();
+//		
+		System.out.println("counter: " + counter);
 		
-		if (obstacleCheck == 1) {
+		
+		if (obstacleCheck == 1) {// && !currentDir.relativeDirection(favDir).isOpposite(currentDir)) {
 			if (possibleDir(relativeChoices, favDir)) { //calls the method possibleDir() while changing the choice parameter of choice
+				System.out.println("going fav");
+				//currentDir = favDir;
 				return currentDir;							//this basically allows us to respect the priority of certain choices ("if left is available, then take that direction, otherwise go to the next priority")
 
 				/*
@@ -111,12 +126,14 @@ public class Bear extends Animal {
 				nextDir = choices[0];
 //				System.out.println("Relative choice: " + nextDir);
 				currentDir(nextDir);
+				counter++;
 				//return currentDir;
 			}
 			
 			else if (currentDir == Direction.NONE) { //if the starting point is in the middle of nowhere (or between two horizontal walls), pick a random direction
 				nextDir = choices[rand.nextInt(choices.length)];
 				currentDir(nextDir);
+				counter = 0;
 				//return currentDir;
 			}
 			
