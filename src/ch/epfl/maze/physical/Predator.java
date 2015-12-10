@@ -19,6 +19,8 @@ abstract public class Predator extends Animal {
 	//implement another variable to count steps?
 	private final Random RANDOM = new Random();
 	private Direction previousDir = Direction.NONE;
+	private int timer;
+	private final Vector2D HOME_POSITION;
 
 	/**
 	 * Constructs a predator with a specified position.
@@ -29,6 +31,8 @@ abstract public class Predator extends Animal {
 
 	public Predator(Vector2D position) {
 		super(position);
+		HOME_POSITION = position;
+		timer = 0;
 		// TODO
 	}
 
@@ -63,6 +67,10 @@ abstract public class Predator extends Animal {
 	
 	private void previousDir(Direction currentDir) { //This method simply updates the value of the previous direction with the one of the current one
 		previousDir = currentDir;
+	}
+	
+	public void updateTimer() {
+		timer++;
 	}
 
 	/**

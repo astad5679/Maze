@@ -73,7 +73,7 @@ public class Monkey extends Animal {
 			//return currentDir;
 		}
 		
-		System.out.println("current: " + currentDir);
+//		System.out.println("current: " + currentDir);
 		return currentDir; //Since currentDir is now equivalent to the next direction, we can just return this 
 	}
 
