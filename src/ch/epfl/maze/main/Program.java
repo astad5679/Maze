@@ -95,7 +95,7 @@ public class Program {
 		d.addPredator(new Blinky(new Vector2D(17, 1)));
 
 		// adds Pinky
-//		d.addPredator(new Pinky(new Vector2D(1, 1)));
+		d.addPredator(new Pinky(new Vector2D(1, 1)));
 
 		// adds Inky
 //		d.addPredator(new Inky(new Vector2D(17, 17)));

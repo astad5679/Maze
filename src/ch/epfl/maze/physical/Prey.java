@@ -52,4 +52,8 @@ abstract public class Prey extends Animal {
 	 */
 
 	abstract public Direction move(Direction[] choices, Daedalus daedalus);
+	
+	abstract public Direction getDir();
 }
+
+

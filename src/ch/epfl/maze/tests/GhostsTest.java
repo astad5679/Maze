@@ -145,5 +145,11 @@ public class GhostsTest extends TestCase {
 		public Animal copy() {
 			return new PacMan(getPosition(), mMoves);
 		}
+
+		@Override
+		public Direction getDir() {
+			// TODO Auto-generated method stub
+			return Direction.NONE;
+		}
 	}
 }
