@@ -61,11 +61,6 @@ public class PacMan extends Prey {
 	}
 	
 	@Override
-	public Direction getDir() {
-		return previousDir;
-	}
-	
-	@Override
 	public Animal copy() {
 		// TODO
 		PacMan p = new PacMan(this.getPosition());

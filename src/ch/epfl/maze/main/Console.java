@@ -32,13 +32,13 @@ import ch.epfl.maze.util.Vector2D;
 public class Console {
 
 	/** Number of simulations launched. */
-	public static final int NUMBER_OF_SIMULATIONS = 50;
+	public static final int NUMBER_OF_SIMULATIONS = 1000;
 
 	public static void main(String[] args) {
 		Simulation simulation;
 
-		simulation = getMazeSimulation();
-		//simulation = getDaedalusSimulation();
+//		simulation = getMazeSimulation();
+		simulation = getDaedalusSimulation();
 
 		System.out.print("Launching " + NUMBER_OF_SIMULATIONS + " simulations...");
 		Map<String, List<Integer>> results =
@@ -107,7 +107,7 @@ public class Console {
 		d.addPredator(new Inky(new Vector2D(17, 17)));
 
 		// adds Clyde
-		d.addPredator(new Clyde(new Vector2D(1, 17)));
+//		d.addPredator(new Clyde(new Vector2D(1, 17)));
 
 		return simulation;
 	}

@@ -50,10 +50,11 @@ public class Inky extends Predator {
 			}
 		}
 		
-		Vector2D blinkyDist = blinkyPos.sub(preyPos);
+		Vector2D blinkyDist = preyPos.sub(blinkyPos);
 		blinkyDist = blinkyDist.add(blinkyDist);
+		blinkyDist = blinkyPos.add(blinkyDist);
 		
-//		System.out.println(position);
+//		System.out.println(blinkyDist);
 		
 		if (choices.length == 1 && choices[0] != Direction.NONE) { //This method disregards the main aspect of the mouse which is, as prescribed, never to retrace its steps
 			previousDir(choices[0]);							   //considering that it does need to turn around if at a dead end, we admit that in the case where only 

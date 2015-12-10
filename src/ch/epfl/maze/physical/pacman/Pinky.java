@@ -16,6 +16,7 @@ public class Pinky extends Predator {
 	private Direction currentDir = Direction.NONE;
 	private double minDist = Double.POSITIVE_INFINITY;
 	private Direction nextDir = Direction.NONE;
+	private Vector2D preyPrev;
 
 	/**
 	 * Constructs a Pinky with a starting position.
@@ -26,6 +27,7 @@ public class Pinky extends Predator {
 
 	public Pinky(Vector2D position) {
 		super(position);
+		preyPrev = this.getPosition();
 		// TODO
 	}
 
@@ -38,8 +40,11 @@ public class Pinky extends Predator {
 		}
 		
 		Prey prey = daedalus.getPreys().get(0);
-		Vector2D position = prey.getPosition();
-		Direction preyDir = prey.getDir();
+		Vector2D preyPos = prey.getPosition();
+		
+		Vector2D preyVect = preyPos.sub(preyPrev);
+		Direction preyDir = preyVect.toDirection();
+//		System.out.println(preyDir);
 //		System.out.println(position);
 		
 		if (choices.length == 1 && choices[0] != Direction.NONE) { //This method disregards the main aspect of the mouse which is, as prescribed, never to retrace its steps
@@ -54,20 +59,22 @@ public class Pinky extends Predator {
 		minDist = Double.POSITIVE_INFINITY;
 		
 		for (int i = 0; i < 4; i++) {
-			position = position.addDirectionTo(preyDir);
+			preyPos = preyPos.addDirectionTo(preyDir);
 //			System.out.println("position " + i + ": " + position);
 		}
 		
 		
 		for (Direction choice : choices) {
 			if (!choice.isOpposite(currentDir)) {
-				double distance = distanceCalc(this.getPosition().addDirectionTo(choice), position);
+				double distance = distanceCalc(this.getPosition().addDirectionTo(choice), preyPos);
 //				System.out.println(choice + ": " + distance);
 				if (distanceCheck(distance)) {
 					nextDir = choice;
 				}
 			}
 		}
+		
+		preyPrev = preyPos;
 		previousDir(nextDir);	
 //		System.out.println(currentDir);
 		return currentDir;
