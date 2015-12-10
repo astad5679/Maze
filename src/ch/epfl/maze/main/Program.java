@@ -87,9 +87,9 @@ public class Program {
 		Simulation simulation = new DaedalusSimulation(d);
 
 		// adds Pac-Mans
-//		d.addPrey(new PacMan(new Vector2D(9, 15)));
+		d.addPrey(new PacMan(new Vector2D(9, 15)));
 		d.addPrey(new PacMan(new Vector2D(10, 15)));
-//		d.addPrey(new PacMan(new Vector2D(8, 15)));
+		d.addPrey(new PacMan(new Vector2D(8, 15)));
 
 		// adds Blinky
 		d.addPredator(new Blinky(new Vector2D(17, 1)));

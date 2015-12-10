@@ -21,6 +21,10 @@ abstract public class Predator extends Animal {
 	private Direction previousDir = Direction.NONE;
 	private int timer;
 	private final Vector2D HOME_POSITION;
+	private Direction currentDir = Direction.NONE;
+	private double minDist = Double.POSITIVE_INFINITY;
+	private Direction nextDir = Direction.NONE;
+	private String mode = "CHASE";
 
 	/**
 	 * Constructs a predator with a specified position.
@@ -65,12 +69,9 @@ abstract public class Predator extends Animal {
 		return mouseChoices.get(index);
 	}
 	
-	private void previousDir(Direction currentDir) { //This method simply updates the value of the previous direction with the one of the current one
-		previousDir = currentDir;
-	}
-	
 	public void updateTimer() {
 		timer++;
+//		System.out.println("timer: " + timer);
 	}
 
 	/**
@@ -90,5 +91,69 @@ abstract public class Predator extends Animal {
 	 * @return The next direction of the animal, chosen in {@code choices}
 	 */
 
-	abstract public Direction move(Direction[] choices, Daedalus daedalus);
+	public Direction ghostPara(Direction[] choices, Daedalus daedalus, Vector2D preyPos) {
+		
+		switch (mode) {
+		case "CHASE":
+			if (timer == CHASE_DURATION) {
+				mode = "SCATTER";
+				timer = 0;
+//				System.out.println("change");
+			}
+//			System.out.println("chase!");
+			break;
+		case "SCATTER":
+			preyPos = HOME_POSITION;
+			if (timer == SCATTER_DURATION) {
+				mode = "CHASE";
+				timer = 0;
+			}
+//			System.out.println("scatter!");
+			break;
+		}
+		
+		if (choices.length == 1 && choices[0] != Direction.NONE) { //This method disregards the main aspect of the mouse which is, as prescribed, never to retrace its steps
+			previousDir(choices[0]);							   //considering that it does need to turn around if at a dead end, we admit that in the case where only 
+			return choices[0];									   //one direction is available, he will choose that one no matter what
+		} else if (choices.length == 0 || choices[0] == Direction.NONE) {
+//			System.out.println("NO CHOICES!");
+			return Direction.NONE;
+		}
+		
+		nextDir = currentDir;
+		minDist = Double.POSITIVE_INFINITY;
+		
+		for (Direction choice : choices) {
+			if (!choice.isOpposite(currentDir)) {
+				double distance = distanceCalc(this.getPosition().addDirectionTo(choice), preyPos);
+//				System.out.println(choice + ": " + distance);
+				if (distanceCheck(distance)) {
+					nextDir = choice;
+				}
+			}
+		}
+		previousDir(nextDir);	
+		updateTimer();
+//		System.out.println(currentDir);
+		return currentDir;
+	}
+	
+	private void previousDir(Direction nextDir) { //This method simply updates the value of the previous direction with the one of the current one
+		currentDir = nextDir;
+	}
+	
+	private double distanceCalc(Vector2D nextPos, Vector2D preyPos) { 
+		Vector2D difference = nextPos.sub(preyPos);
+		return difference.dist();
+	}
+	
+	private boolean distanceCheck(double newDist) {
+		if (newDist < minDist) {
+			minDist = newDist;
+			return true;
+		}
+		return false;
+	}
+	
+	abstract public Direction move(Direction[] choices, Daedalus daedalus); 
 }

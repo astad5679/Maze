@@ -95,20 +95,20 @@ public class GhostsTest extends TestCase {
 	 * In this case, Clyde should go back and forth.
 	 */
 
-	@Test
-	public void testClyde() {
-		int[][] labyrinth = LabyrinthGenerator.getDebugClyde();
-
-		Daedalus d = new Daedalus(labyrinth);
-		Simulation simulation = new DaedalusSimulation(d);
-
-		d.addPredator(new Clyde(new Vector2D(1, 3)));
-		d.addPrey(new PacMan(new Vector2D(8, 3), false));
-
-		Display display = new Display(simulation);
-		display.setDebug(true);
-		display.run();
-	}
+//	@Test
+//	public void testClyde() {
+//		int[][] labyrinth = LabyrinthGenerator.getDebugClyde();
+//
+//		Daedalus d = new Daedalus(labyrinth);
+//		Simulation simulation = new DaedalusSimulation(d);
+//
+//		d.addPredator(new Clyde(new Vector2D(1, 3)));
+//		d.addPrey(new PacMan(new Vector2D(8, 3), false));
+//
+//		Display display = new Display(simulation);
+//		display.setDebug(true);
+//		display.run();
+//	}
 
 	/**
 	 * Mock class to create a dummy PacMan in our testing unit.
