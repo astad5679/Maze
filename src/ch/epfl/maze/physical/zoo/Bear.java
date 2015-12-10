@@ -90,9 +90,10 @@ public class Bear extends Animal {
 				 *this means we need to set up some sort of dynamic next direction, and only then proceed with the monkey method
 				 */
 			} else {
-				obstacleCheck = 2;
-				counter = 1;
+				
 				if (possibleDir(relativeChoices, Direction.RIGHT)) {
+					obstacleCheck = 2;
+					counter = 1;
 					return currentDir;
 				}
 				else {
