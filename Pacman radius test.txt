@@ -1,0 +1,21 @@
+Normal PacMan maze:
+1: 23
+2: 34
+3: 41 //this is the most optimal radius, based on test results only
+4: 34
+5: 36 //starting here, pacman will always take the same path, and therefore be eaten after the same number of steps (min and max are the same and there is no standard 		//deviation)
+6: 36
+7: 36
+...
+10: 36 
+
+Ms PacMan maze:
+1: 28
+2: 26
+3: 57 //the most optimal radius is the same as earlier, coincidence?
+4: 55
+5: 38
+6: 25 //from here on, the same phenomenon as earlier will occur, except curiosly enough, this is a worse outcome then having a smaller radius (unlike above)
+...
+10: 25 //as if this was a surprise)
+

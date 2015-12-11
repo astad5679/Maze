@@ -43,14 +43,14 @@ public class Hamster extends Animal {
 		Direction nextDir;
 		
 		if (choices.length > 2){	
-			//nel caso non ci siano più vie libere mi fermo
+			//nel caso non ci siano piu vie libere mi fermo
 			if (choicesPos.size() == 0 && counter == 2){	
 //				System.out.println(deadEnds.size());
 				return Direction.NONE;
 			}
 			//aggiungo il vicolo cieco alla lista (se counter == 2)
 			if (counter == 2){
-				//se arrivo da un vicolo cieco e ho una sola strada possibile, allora questo incrocio sarà un vicolo cieco
+				//se arrivo da un vicolo cieco e ho una sola strada possibile, allora questo incrocio sara un vicolo cieco
 				if (choicesPos.size() == 1){
 					Vector2D deadEnd = this.getPosition().addDirectionTo(previousDir.reverse());
 					deadEnds.add(deadEnd);
@@ -70,7 +70,7 @@ public class Hamster extends Animal {
 				counter = 2;
 				nextDir = previousDir.reverse();
 			
-			//se ho più scelte scelgo a caso
+			//se ho piu scelte scelgo a caso
 			} else {
 				int index = RANDOM.nextInt(choicesPos.size()); 
 				nextDir = choicesPos.get(index);

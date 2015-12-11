@@ -18,9 +18,8 @@ abstract public class Predator extends Animal {
 	public static final int CHASE_DURATION = 40;
 	//implement another variable to count steps?
 	private final Random RANDOM = new Random();
-	private Direction previousDir = Direction.NONE;
 	private int timer;
-	private final Vector2D HOME_POSITION;
+	protected final Vector2D HOME_POSITION;
 	private Direction currentDir = Direction.NONE;
 	private double minDist = Double.POSITIVE_INFINITY;
 	private Direction nextDir = Direction.NONE;
@@ -57,7 +56,7 @@ abstract public class Predator extends Animal {
 		
 		ArrayList<Direction> mouseChoices = new ArrayList<Direction>();
 		for (Direction choice : choices) {
-			if (!choice.isOpposite(previousDir)) {
+			if (!choice.isOpposite(currentDir)) {
 				mouseChoices.add(choice);
 			}
 		}
@@ -71,7 +70,7 @@ abstract public class Predator extends Animal {
 	
 	public void updateTimer() {
 		timer++;
-//		System.out.println("timer: " + timer);
+//		System.out.println("timer: " + timer + ", " + mode);
 	}
 
 	/**
@@ -118,16 +117,26 @@ abstract public class Predator extends Animal {
 		} else if (choices.length == 0 || choices[0] == Direction.NONE) {
 //			System.out.println("NO CHOICES!");
 			return Direction.NONE;
-		}
+		} //else if (choices.length == 2 && !(this instanceof Clyde) && currentDir != Direction.NONE) {
+//			return currentDir;
+//		}
 		
+//		System.out.println("min dist: " + minDist);
 		nextDir = currentDir;
 		minDist = Double.POSITIVE_INFINITY;
+		
 		
 		for (Direction choice : choices) {
 			if (!choice.isOpposite(currentDir)) {
 				double distance = distanceCalc(this.getPosition().addDirectionTo(choice), preyPos);
 //				System.out.println(choice + ": " + distance);
 				if (distanceCheck(distance)) {
+//					if (this instanceof Clyde && minDist <= 4.0) {
+//						System.out.println("It's Clyde Time motherfuckers!");
+//						preyPos = HOME_POSITION;
+//						Direction dir = move(choices);
+//						return dir;
+//					}
 					nextDir = choice;
 				}
 			}
@@ -142,7 +151,7 @@ abstract public class Predator extends Animal {
 		currentDir = nextDir;
 	}
 	
-	private double distanceCalc(Vector2D nextPos, Vector2D preyPos) { 
+	public double distanceCalc(Vector2D nextPos, Vector2D preyPos) { 
 		Vector2D difference = nextPos.sub(preyPos);
 		return difference.dist();
 	}
@@ -154,6 +163,14 @@ abstract public class Predator extends Animal {
 		}
 		return false;
 	}
+	
+//	public void changeMode() {
+//		if (mode.equals("SCATTER")) {
+//			mode = "CHASE";
+//		} else if (mode.equals("CHASE")) {
+//			mode = "SCATTER";
+//		}
+//	}
 	
 	abstract public Direction move(Direction[] choices, Daedalus daedalus); 
 }

@@ -7,7 +7,7 @@ import ch.epfl.maze.util.Direction;
 import ch.epfl.maze.util.Vector2D;
 
 /**
- * Panda A.I. that implements Trémeaux's Algorithm.
+ * Panda A.I. that implements Tremeaux's Algorithm.
  * 
  */
 public class Panda extends Animal {
@@ -32,7 +32,7 @@ public class Panda extends Animal {
 	}
 
 	/**
-	 * Moves according to <i>Trémeaux's Algorithm</i>: when the panda
+	 * Moves according to <i>Tremeaux's Algorithm</i>: when the panda
 	 * moves, it will mark the ground at most two times (with two different
 	 * colors). It will prefer taking the least marked paths. Special cases
 	 * have to be handled, especially when the panda is at an intersection.

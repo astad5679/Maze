@@ -101,7 +101,7 @@ public class Program {
 		d.addPredator(new Inky(new Vector2D(17, 17)));
 
 		// adds Clyde
-//		d.addPredator(new Clyde(new Vector2D(1, 17)));
+		d.addPredator(new Clyde(new Vector2D(1, 17)));
 
 		return simulation;
 	}
