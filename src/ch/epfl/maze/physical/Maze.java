@@ -39,7 +39,11 @@ public final class Maze extends World {
 
 	@Override
 	public List<Animal> getAnimals() { 
-		return navAnimals;
+		List<Animal> temp = new ArrayList<Animal>();
+		for (Animal animal : navAnimals) {
+			temp.add(animal);
+		}
+		return temp;
 	}
 
 	/**

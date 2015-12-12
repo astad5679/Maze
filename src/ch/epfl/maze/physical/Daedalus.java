@@ -94,10 +94,10 @@ public final class Daedalus extends World {
 		List<Animal> animals = new ArrayList<Animal>();
 		
 		for (Prey prey : prey) {
-			animals.add(prey);
+			animals.add(prey.copy());
 		}
 		for (Predator predator : predators) {
-			animals.add(predator);
+			animals.add(predator.copy());
 		}
 		
 		return animals;
