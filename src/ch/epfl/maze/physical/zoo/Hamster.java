@@ -41,37 +41,38 @@ public class Hamster extends Animal {
 	public Direction move(Direction[] choices) {
 		ArrayList<Direction> choicesPos = dirToVect(choices);
 		Direction nextDir;
-		
-		if (choices.length > 2){	
-			//nel caso non ci siano piu vie libere mi fermo
+		//the hamster is in a crossroad
+		if (choices.length > 2){
+			
+			//if there are no possibles ways the hamster will stop
 			if (choicesPos.size() == 0 && counter == 2){	
-//				System.out.println(deadEnds.size());
 				return Direction.NONE;
 			}
-			//aggiungo il vicolo cieco alla lista (se counter == 2)
+			
 			if (counter == 2){
-				//se arrivo da un vicolo cieco e ho una sola strada possibile, allora questo incrocio sara un vicolo cieco
+				
+				//if the crossroad have only one way not already taken, the hamster will take it and count that crossroad like an impasse
 				if (choicesPos.size() == 1){
 					Vector2D deadEnd = this.getPosition().addDirectionTo(previousDir.reverse());
 					deadEnds.add(deadEnd);
-//					System.out.println(deadEnd);
 				}
-				//se arrivo da un vicolo cieco e ho altre scelte, tolgo semplicemente la scelta da quelle possibili del vicolo cieco
-				else {
+				//add the impasse to the deadEnd list
+				else{
+					
 					Vector2D deadEnd = this.getPosition().addDirectionTo(previousDir.reverse());
 					deadEnds.add(deadEnd);
-//					System.out.println(deadEnd);
 					counter = 1;
 				}
 			}
 			
-			//se non ho scelte torno da dove sono venuto e metto il counter == 2
+			//when the hamster finds an impasse it goes back and set the counter to 2
 			if (choicesPos.size() == 0){					  	
 				counter = 2;
 				nextDir = previousDir.reverse();
 			
-			//se ho piu scelte scelgo a caso
-			} else {
+			//in case of multiple choices the hamster's choice is random
+			}else{
+				
 				int index = RANDOM.nextInt(choicesPos.size()); 
 				nextDir = choicesPos.get(index);
 			}
@@ -79,14 +80,17 @@ public class Hamster extends Animal {
 			previousDir = nextDir;
 			return nextDir;
 		
-		// Non mi trovo in un incrocio
-		} else {								
-			// Se sono in un vicolo cieco torno in dietro e metto counter == 2
+		//the hamster is not in a crossroad
+		}else{	
+			
+			//if the hamster finds an impasse it goes back and set the counter to 2
 			if (choicesPos.size() == 0){						
 				counter = 2;
 				nextDir = previousDir.reverse();
-			} else {
-			// scelgo la scelta non contraria a quella in cui sto viaggiango
+				
+			}else{
+			
+			//the hamster doesn't go back 
 			ArrayList<Direction> doubleChoices = new ArrayList<Direction>(); 
 			for (Direction choice : choices){
 				if (!choice.isOpposite(previousDir)) {
@@ -100,7 +104,8 @@ public class Hamster extends Animal {
 		}
 	}
 	
-	private ArrayList<Direction> dirToVect(Direction[] choices) { //This method converts all the possible choices to what positions they represent in the labyrinth
+	//This method converts all the possible choices to what positions they represent in the labyrinth
+	private ArrayList<Direction> dirToVect(Direction[] choices) { 
 		Vector2D currentPos = this.getPosition();
 		ArrayList<Direction> choicesPos = new ArrayList<Direction>();
 		for (Direction choice : choices) {
