@@ -27,6 +27,7 @@ public class Clyde extends Predator {
 		// TODO
 	}
 
+	//As stated more explicitley in its parent class and in the README, this method now calls upon a parent method to calculate the desireable choice, which this method will return on its own
 	@Override
 	public Direction move(Direction[] choices, Daedalus daedalus) {
 		// TODO
@@ -37,13 +38,13 @@ public class Clyde extends Predator {
 		
 		Prey prey = daedalus.getPreys().get(0);
 		Vector2D preyPos = prey.getPosition();
-//		System.out.println(position);
 		
-		double distance = this.distanceCalc(this.getPosition(), preyPos);
-//		System.out.println("distance: " + distance);
-		if (distance <= 4.0) {
+		//Clyde will exclusively calculate the distance to his target using the parent method
+		double distance = this.distanceCalc(this.getPosition(), preyPos); 
+		if (distance <= 4.0) { //he then uses this to check if he is too close to his prey, in which case he targets his home position
 			preyPos = this.HOME_POSITION;
 		}
+		//otherwise he just targets his prey the same way Blinky does
 		
 		return this.ghostPara(choices, daedalus, preyPos);
 			

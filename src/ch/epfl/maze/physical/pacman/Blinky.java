@@ -26,20 +26,21 @@ public class Blinky extends Predator {
 		// TODO
 	}
 
+	//As stated more explicitley in its parent class and in the README, this method now calls upon a parent method to calculate the desireable choice, which this method will return on its own
 	@Override
 	public Direction move(Direction[] choices, Daedalus daedalus) {
 		// TODO
 		
-		if (daedalus.getPreys().size() == 0) {
-			System.out.println("NO PREY!");
+		if (daedalus.getPreys().size() == 0) { //This block of code is present for all the ghosts as a fail safe. Due to our lack of understanding of how the simulation unfolds,
+			System.out.println("NO PREY!");    //we decided to implement this just in case, but it shouldn't actually every pass
 			return Direction.NONE;
 		}
 		
-		Prey prey = daedalus.getPreys().get(0);
-		Vector2D preyPos = prey.getPosition();
+		Prey prey = daedalus.getPreys().get(0); //In the case there are no preys, this would result in an error...(see above)
+		Vector2D preyPos = prey.getPosition(); //All blinky does is target the exact position of his prey
 //		System.out.println(position);
 		
-		return this.ghostPara(choices, daedalus, preyPos);
+		return this.ghostPara(choices, daedalus, preyPos); //It is then passed as a paramater to the super move function
 	}
 	
 	@Override

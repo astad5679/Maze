@@ -1,5 +1,8 @@
 package ch.epfl.maze.physical;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 import ch.epfl.maze.util.Direction;
 import ch.epfl.maze.util.Vector2D;
 
@@ -9,6 +12,8 @@ import ch.epfl.maze.util.Vector2D;
  */
 
 abstract public class Prey extends Animal {
+	private final Random RANDOM = new Random();
+	private Direction previousDir = Direction.NONE;
 
 	/**
 	 * Constructs a prey with a specified position.
@@ -28,10 +33,27 @@ abstract public class Prey extends Animal {
 	 * 
 	 */
 
+	//In other words, moves in the same way as the mouse when no prey is around (assuming this exception is treated explicitly by the main program class)
 	@Override
-	public final Direction move(Direction[] choices) {
-		// TODO
-		return Direction.NONE;
+	public final Direction move(Direction[] choices) { 
+		if (choices.length == 1 && choices[0] != Direction.NONE) { 
+			previousDir = choices[0];							   
+			return choices[0];									  
+			
+		} 
+		
+		ArrayList<Direction> newChoices = new ArrayList<Direction>();
+		for (Direction choice : choices) {
+			if (!choice.isOpposite(previousDir)) {
+				newChoices.add(choice);
+			}
+		}
+		
+		int index = RANDOM.nextInt(newChoices.size()); 
+														 
+		previousDir = newChoices.get(index); 
+		
+		return newChoices.get(index);
 	}
 
 	/**

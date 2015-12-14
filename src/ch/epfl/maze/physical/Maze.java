@@ -39,7 +39,7 @@ public final class Maze extends World {
 
 	@Override
 	public List<Animal> getAnimals() { 
-		List<Animal> temp = new ArrayList<Animal>();
+		List<Animal> temp = new ArrayList<Animal>(); //as hinted by one of the threads on the forums, it is a good idea to return a copy of the instance in question rather than the reference itself (even though some extra code was added to prevent this from becoming too much of an issue...)
 		for (Animal animal : navAnimals) {
 			temp.add(animal);
 		}
@@ -86,7 +86,7 @@ public final class Maze extends World {
 
 	@Override
 	public void reset() {
-		navAnimals = new ArrayList<Animal>(); //resets the navigation list to make way for the new animal instances copied from the "final" or end list
+		navAnimals = new ArrayList<Animal>(); //resets the navigation list to make way for the new animal instances copied from the "final" or end list, which contains the original starting positions of the animals
 		
 		for (Animal creature : endAnimals) {
 			Animal newCreature = creature.copy();

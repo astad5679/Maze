@@ -10,14 +10,11 @@ import java.util.List;
  * 
  */
 
-public final class Daedalus extends World {
+public final class Daedalus extends World { //entire class is basically a copy of <Maze.java>, with some minor differences
 	private List<Predator> predators = new ArrayList<Predator>();
 	private List<Predator> predatorsDupe = new ArrayList<Predator>();
 	private List<Prey> prey = new ArrayList<Prey>();
 	private List<Prey> preyDupe = new ArrayList<Prey>();
-	//do I define these as their precise instance or not? Animal v Predator/prey
-	
-	
 	
 	/**
 	 * Constructs a Daedalus with a labyrinth structure
@@ -94,7 +91,7 @@ public final class Daedalus extends World {
 		List<Animal> animals = new ArrayList<Animal>();
 		
 		for (Prey prey : prey) {
-			animals.add(prey.copy());
+			animals.add(prey.copy()); //uses a copy for the same reason it does so in Maze.java
 		}
 		for (Predator predator : predators) {
 			animals.add(predator.copy());
@@ -154,7 +151,7 @@ public final class Daedalus extends World {
 	}
 
 	@Override
-	public void reset() {
+	public void reset() { //Takes every single animal at its initialized state, and copies them into their new respective lists
 		prey = new ArrayList<Prey>();
 		predators = new ArrayList<Predator>();
 		

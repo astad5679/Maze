@@ -56,11 +56,11 @@ public class PacMan extends Prey {
 		
 		
 //		ArrayList<Predator> closePred = new ArrayList<Predator>();
-		for (Predator predator : predators){
+		for (Predator predator : predators) {
 			distPred = distCalcul(predator.getPosition());
 //			
-			if (distPred < SEARCH_RADIUS){
-				if (distPred < minDist){
+			if (distPred < SEARCH_RADIUS) {
+				if (distPred < minDist) {
 					predPos = predator.getPosition();
 					minDist = distPred;
 //					closePred.add(predator);
@@ -74,7 +74,7 @@ public class PacMan extends Prey {
 			
 		}
 		
-		if (choices.length > 2){
+		if (choices.length > 2) {
 			
 			
 			
@@ -97,7 +97,7 @@ public class PacMan extends Prey {
 			
 			for (Direction choice : choices) {
 				double distance = distanceCalc(this.getPosition().addDirectionTo(choice), predPos);
-				boolean check = false;
+//				boolean check = false;
 				
 //				System.out.println(choice + ": " + distance);
 				if (distanceCheck(distance)) {
@@ -114,9 +114,9 @@ public class PacMan extends Prey {
 			}
 		} else {
 			
-			if (choices.length == 1 && choices[0] != Direction.NONE) { //This method disregards the main aspect of the mouse which is, as prescribed, never to retrace its steps
-				previousDir(choices[0]);							   //considering that it does need to turn around if at a dead end, we admit that in the case where only 
-				return choices[0];									   //one direction is available, he will choose that one no matter what
+			if (choices.length == 1 && choices[0] != Direction.NONE) { 
+				previousDir(choices[0]);							   
+				return choices[0];									  
 				
 			} 
 			

@@ -30,7 +30,7 @@ public abstract class World {
 	 *            Structure of the labyrinth, an NxM array of tiles
 	 */
 
-	public World(int[][] labyrinth) {
+	public World(int[][] labyrinth) { //constructs a "world" using the same values given by the parameter
 		width = labyrinth[0].length;
         height = labyrinth.length;
 		newWorld = new int [height][width];
@@ -80,16 +80,6 @@ public abstract class World {
 		}
 		return NOTHING;
 	
-		/*
-		try {
-			if (y < height || x < width){
-				return newWorld[y][x];
-			} 
-		} catch (java.lang.ArrayIndexOutOfBoundsException e) {
-			System.out.println(e);
-		}
-		return NOTHING;
-		*/
 	}
 
 	/**
@@ -102,11 +92,11 @@ public abstract class World {
 	 * @return <b>true</b> if an animal can walk on tile, <b>false</b> otherwise
 	 */
 
-	public final boolean isFree(int x, int y) {
+	public final boolean isFree(int x, int y) { //Checks if tile in question is neither a wall nor "nothing"
 		if (getTile(x, y) == WALL || getTile(x, y) == NOTHING){
 			return false;
 		}
-		return true;	
+		return true; 
 	}
 
 	/**
@@ -119,11 +109,13 @@ public abstract class World {
 	 * @return An array of all available choices at a position
 	 */
 
-	public final Direction[] getChoices(Vector2D position) {
+	//This method looks all around a given position, checking if those position as free. These are then added as potential directions, or choices, that the animal can take
+	public final Direction[] getChoices(Vector2D position) { 
 		int x = position.getX();
 		int y = position.getY();
 		int c = 0;
 		
+		//the reason we checked the same thing twice was to make sure we created the right sized array to contain the choices (being the method needs to return a simple array)		
 		if (isFree(x, y + 1)){
 			c++;
 		}
@@ -137,8 +129,8 @@ public abstract class World {
 			c++;
 		}
 		
-		if (c == 0) {
-			Direction[] direction = {Direction.NONE};
+		if (c == 0) { //this little exception is here to make sure that in the case of no choices, we are returned with a list with the .NONE choice (which won't result in any form of movement, but is necessary to avoid an index error of sorts)
+			Direction[] direction = {Direction.NONE}; 
 			return direction;
 		}
 		
@@ -161,14 +153,6 @@ public abstract class World {
 			direction[i] = Direction.RIGHT;
 			i++;
 		}
-		
-		/*
-		for (int i1 = 0; i1 < direction.length; i1++) {
-			System.out.print(direction[i1] + ", ");
-		}
-		System.out.println();
-		*/
-		
 		
 		return direction;
 	}
@@ -200,7 +184,7 @@ public abstract class World {
 	 * @return Start position of the labyrinth, null if none.
 	 */
 	//getTile ?
-	public final Vector2D getStart() {
+	public final Vector2D getStart() { //scans every spot in the world array looking for the position labeled "2" and saves it as the start
 		for (int i = 0; i < height; i++){
 			for (int j = 0; j < width; j++){
 				if (getTile(j, i) == START){
@@ -219,7 +203,7 @@ public abstract class World {
 	 * @return Exit position of the labyrinth, null if none.
 	 */
 
-	public final Vector2D getExit() {
+	public final Vector2D getExit() { //same thing as getStart(), except it saves the exit
 		for (int i = 0; i < height; i++){
 			for (int j = 0; j < width; j++){
 				if (getTile(j, i) == EXIT){

@@ -5,6 +5,7 @@ package ch.epfl.maze.util;
  * 
  */
 
+//No changes or additions were made here
 public final class Vector2D {
 
 	/* shift constant to compute the hash */

@@ -13,7 +13,7 @@ import ch.epfl.maze.util.Vector2D;
  */
 
 public class Pinky extends Predator {
-	private Vector2D preyPrev;
+	private Vector2D preyPrev; //Pinky has an exclusive attribute which permits him to store pacmans previous position
 
 	/**
 	 * Constructs a Pinky with a starting position.
@@ -28,6 +28,7 @@ public class Pinky extends Predator {
 		// TODO
 	}
 
+	//As stated more explicitley in its parent class and in the README, this method now calls upon a parent method to calculate the desireable choice, which this method will return on its own
 	@Override
 	public Direction move(Direction[] choices, Daedalus daedalus) {
 		// TODO
@@ -39,14 +40,14 @@ public class Pinky extends Predator {
 		Prey prey = daedalus.getPreys().get(0);
 		Vector2D preyPos = prey.getPosition();
 		
-		Vector2D preyVect = preyPos.sub(preyPrev);
+		Vector2D preyVect = preyPos.sub(preyPrev); //these two lines permit us to calculate pacmans direction based on where he moved respective to his previous position
 		Direction preyDir = preyVect.toDirection();
+		preyPrev = preyPos; //update his position
 		
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 4; i++) { //we then just add the same direction 4 times in a row to obtain our target position
 			preyPos = preyPos.addDirectionTo(preyDir);
 		}
 		
-		preyPrev = preyPos;
 		return this.ghostPara(choices, daedalus, preyPos);
 	}
 	
