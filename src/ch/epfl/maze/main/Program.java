@@ -13,6 +13,7 @@ import ch.epfl.maze.physical.zoo.Hamster;
 import ch.epfl.maze.physical.zoo.Monkey;
 import ch.epfl.maze.physical.zoo.Mouse;
 import ch.epfl.maze.physical.zoo.Panda;
+import ch.epfl.maze.physical.zoo.SpaceInvader;
 import ch.epfl.maze.simulation.DaedalusSimulation;
 import ch.epfl.maze.simulation.MazeSimulation;
 import ch.epfl.maze.simulation.Simulation;
@@ -50,16 +51,16 @@ public class Program {
 	 */
 
 	public static Simulation getMazeSimulation() {
-		int[][] labyrinth = LabyrinthGenerator.getMedium();
+		int[][] labyrinth = LabyrinthGenerator.getLarge();
 		Maze m = new Maze(labyrinth);
 		Simulation simulation = new MazeSimulation(m);
 
 		// adds a Mouse
-		m.addAnimal(new Mouse(m.getStart()));
+//		m.addAnimal(new Mouse(m.getStart()));
 		//System.out.print(m.getStart());
 
 		// adds a Monkey
-		m.addAnimal(new Monkey(m.getStart()));
+//		m.addAnimal(new Monkey(m.getStart()));
 
 		// adds a Hamster
 		m.addAnimal(new Hamster(m.getStart()));
@@ -69,7 +70,10 @@ public class Program {
 //		m.addAnimal(new Bear(m.getStart()));
 
 		// adds a Panda
-		m.addAnimal(new Panda(m.getStart()));
+//		m.addAnimal(new Panda(m.getStart()));
+		
+		// adds a SpaceInvader
+//		m.addAnimal(new SpaceInvader(m.getStart()));
 
 		return simulation;
 	}

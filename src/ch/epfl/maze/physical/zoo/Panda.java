@@ -11,9 +11,9 @@ import ch.epfl.maze.util.Vector2D;
  * 
  */
 public class Panda extends Animal {
-	private ArrayList<Vector2D> colorZero = new ArrayList<Vector2D>(); 
-	private ArrayList<Vector2D> colorOne = new ArrayList<Vector2D>();
-	private ArrayList<Vector2D> colorTwo = new ArrayList<Vector2D>();
+	private ArrayList<Vector2D> colorZero = new ArrayList<Vector2D>(); //List containing all uncolored (or simply discovered) positions of the maze
+	private ArrayList<Vector2D> colorOne = new ArrayList<Vector2D>(); //List containing all the positions that have been colored a single time
+	private ArrayList<Vector2D> colorTwo = new ArrayList<Vector2D>(); //List containing all the positions that have been frequented more than once
 	private final Random RANDOM = new Random();
 	private Direction previousDir = Direction.NONE;
 	
@@ -46,18 +46,18 @@ public class Panda extends Animal {
 		
 		Direction nextDir = Direction.NONE;
 		
-		if (elementsZero > 0){
+		if (elementsZero > 0) {
 			nextDir = theChoice(choices, colorZero);
-		}else if(elementsOne > 0){
+		} else if (elementsOne > 0) {
 			if (choices.length > 2 && elementsOne == choices.length){
 				nextDir = previousDir.reverse();
 			}
 			nextDir = theChoice(choices, colorOne);
-		}else if(elementsTwo > 0){
+		} else if (elementsTwo > 0) {
 			nextDir = theChoice(choices, colorTwo);
 		}
 		
-		if (coloroCheck(choices, elementsTwo)){
+		if (coloroCheck(choices, elementsTwo)) {
 			color();
 		}
 
@@ -67,24 +67,24 @@ public class Panda extends Animal {
 		}
 	
 	//return the direction the Panda is going to take
-	private Direction theChoice (Direction[] choices, ArrayList<Vector2D> elements){
+	private Direction theChoice (Direction[] choices, ArrayList<Vector2D> elements) {
 		ArrayList<Direction> posChoices = new ArrayList<Direction>();
 		Vector2D position = this.getPosition();
 		
-		if (choices.length == 1 && previousDir.equals(Direction.NONE)){
+		if (choices.length == 1 && previousDir.equals(Direction.NONE)) {
 			return choices[0];
 		}
 		
 		
-		for (Direction choice : choices){
+		for (Direction choice : choices) {
 			if (elements.contains(position.addDirectionTo(choice)) &&
-				!choice.isOpposite(previousDir)){
+				!choice.isOpposite(previousDir)) {
 					
 				posChoices.add(choice);
 			}
 		}
 		
-		if (posChoices.size() == 0){
+		if (posChoices.size() == 0) {
 			color();
 			return previousDir.reverse();
 		}
@@ -94,57 +94,56 @@ public class Panda extends Animal {
 		}
 		
 	//return the number of ArrayList's elements 
-	private int counter(Direction[] choices, ArrayList<Vector2D> list){
+	private int counter(Direction[] choices, ArrayList<Vector2D> list) {
 		Vector2D position = this.getPosition();
 		int counter = 0;
 		for (Direction choice : choices){
-			if(list.contains(position.addDirectionTo(choice))){
-			counter++;	
+			if(list.contains(position.addDirectionTo(choice))) {
+				counter++;	
 			}
-	}
+		}
 		return counter;
 		}
 	
 	//if the box it is not "colored" it become colorZero
-	private void control(Direction[] choices){
+	private void control(Direction[] choices) {
 		Vector2D position = this.getPosition();
-		for (Direction choice : choices){
+		for (Direction choice : choices) {
 			if (!(colorZero.contains(position.addDirectionTo(choice))) && 
 				!(colorOne.contains(position.addDirectionTo(choice))) && 
 				!(colorTwo.contains(position.addDirectionTo(choice)))
-				){
+				) {
 				colorZero.add(position.addDirectionTo(choice));
 			}
 		}	
 	}
 	
 	//applies the color to the boxes
-	private void color(){ 
+	private void color() { 
 		
 		Vector2D position = this.getPosition();
-		if (previousDir == Direction.NONE){
+		if (previousDir == Direction.NONE) {
 			if (!(colorOne.contains(this.getPosition()))){
 				colorOne.add(this.getPosition());
 			}
 		}
 		
-		if (colorZero.contains(position)){
+		if (colorZero.contains(position)) {
 			colorZero.remove(position);
 			colorOne.add(position);
-			}else if (colorOne.contains(position)){
+		} else if (colorOne.contains(position)) {
 			colorOne.remove(position);
 			colorTwo.add(position);
-			}
+		}
 	}
 	
 	//until the crossroad have more than one colorOne or colorZero possibilities it doesn't color the crossroad's box
-	private boolean coloroCheck(Direction[] choices, int two){
+	private boolean coloroCheck(Direction[] choices, int two) {
 		
-		if (choices.length > 2 &&  choices.length - 1 > two){
+		if (choices.length > 2 &&  choices.length - 1 > two) {
 			if (!(colorOne.contains(this.getPosition()))){
 				colorOne.add(this.getPosition());
-				
-				if (colorZero.contains(this.getPosition())){
+				if (colorZero.contains(this.getPosition())) {
 					colorZero.remove(this.getPosition());
 				}
 			}
@@ -155,11 +154,10 @@ public class Panda extends Animal {
 	
 	
 	@Override
-	public Animal copy() {
+	public Animal copy() { //Creates a new panda which it initializes with the same position of the instance this method is called from 
 		// TODO
 		Vector2D position = this.getPosition ();
-		Animal p = new Panda(position);
-		
+		Panda p = new Panda(position);
 		return p;
 	}
 }

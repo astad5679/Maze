@@ -1,7 +1,6 @@
 package ch.epfl.maze.physical.zoo;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 
 import ch.epfl.maze.physical.Animal;
@@ -41,9 +40,8 @@ public class Mouse extends Animal {
 		// TODO
 		
 		if (choices.length == 1 && choices[0] != Direction.NONE) { //This method disregards the main aspect of the mouse which is, as prescribed, never to retrace its steps
-			previousDir(choices[0]);							   //considering that it does need to turn around if at a dead end, we admit that in the case where only 
+			previousDir = choices[0];							   //considering that it does need to turn around if at a dead end, we admit that in the case where only 
 			return choices[0];									   //one direction is available, he will choose that one no matter what
-			
 		} 
 		
 		ArrayList<Direction> mouseChoices = new ArrayList<Direction>();
@@ -55,22 +53,17 @@ public class Mouse extends Animal {
 		
 		int index = RANDOM.nextInt(mouseChoices.size()); //We only generate a random index when the taboo direction has been removed from the new list of choices, this
 														 //allows us to get rid of a potentially infinite while loop
-		previousDir(mouseChoices.get(index)); 
+		previousDir = mouseChoices.get(index); 
 		
 		return mouseChoices.get(index);
 		
 			
 	}
 	
-	private void previousDir(Direction currentDir) { //This method simply updates the value of the previous direction with the one of the current one
-		previousDir = currentDir;
-	}
-	
-
 	@Override
-	public Animal copy() {
+	public Animal copy() { //Creates a new mouse which it initializes with the same position of the instance this method is called from 
 		// TODO
-		Vector2D position = this.getPosition ();
+		Vector2D position = this.getPosition (); 
 		Mouse m = new Mouse(position);
 		
 		return m;

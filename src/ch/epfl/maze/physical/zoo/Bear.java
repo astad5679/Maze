@@ -17,7 +17,7 @@ public class Bear extends Animal {
 	private Direction favDir = Direction.NONE;
 	private final Random rand = new Random();
 	private int counter = 0;
-	private int obstacleCheck = 2;
+	private boolean obstacleCheck = false;
 
 	/**
 	 * Constructs a bear with a starting position.
@@ -79,7 +79,7 @@ public class Bear extends Animal {
 		System.out.println("counter: " + counter);
 		
 		
-		if (obstacleCheck == 1) {// && !currentDir.relativeDirection(favDir).isOpposite(currentDir)) {
+		if (obstacleCheck) {// && !currentDir.relativeDirection(favDir).isOpposite(currentDir)) {
 			if (possibleDir(relativeChoices, favDir)) { //calls the method possibleDir() while changing the choice parameter of choice
 				System.out.println("going fav");
 				//currentDir = favDir;
@@ -92,12 +92,13 @@ public class Bear extends Animal {
 			} else {
 				
 				if (possibleDir(relativeChoices, Direction.RIGHT)) {
-					obstacleCheck = 2;
+					obstacleCheck = false;
 					counter = 1;
 					return currentDir;
 				}
 				else {
 					currentDir = currentDir.reverse();
+					counter = 2;
 					return currentDir;
 				}
 			}
@@ -127,7 +128,7 @@ public class Bear extends Animal {
 				nextDir = choices[0];
 //				System.out.println("Relative choice: " + nextDir);
 				currentDir(nextDir);
-				counter++;
+				counter += 2;
 				//return currentDir;
 			}
 			
@@ -139,7 +140,7 @@ public class Bear extends Animal {
 			}
 			
 			if (counter == 0) {
-				obstacleCheck = 1;
+				obstacleCheck = true;
 			}
 			
 			return currentDir; //Since currentDir is now equivalent to the next direction, we can just return this 

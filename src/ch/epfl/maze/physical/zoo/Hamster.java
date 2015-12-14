@@ -16,9 +16,10 @@ import ch.epfl.maze.util.Vector2D;
 public class Hamster extends Animal {
 
 	private final Random RANDOM = new Random();
-	private ArrayList<Vector2D> deadEnds = new ArrayList<Vector2D>();
+	private ArrayList<Vector2D> deadEnds = new ArrayList<Vector2D>(); //This arraylist gets updated based on the dead ends the hamster finds
 	private Direction previousDir = Direction.NONE;
-	private int counter = 1;
+	private int counter = 1; //The counter works to identify if the Hamster is walking back after having hit a dead-end or not. The entire principle of this algorithm is based 
+	//on this counter. As soon as the hamster finds a cross-roads, he will mark the position he just came from as a dead end.
 
 	/**
 	 * Constructs a hamster with a starting position.
@@ -39,90 +40,80 @@ public class Hamster extends Animal {
 
 	@Override
 	public Direction move(Direction[] choices) {
-		ArrayList<Direction> choicesPos = dirToVect(choices);
-		Direction nextDir;
-		//the hamster is in a crossroad
+		//create a new list of choices which removes the opposite direction and all directions which would lead to a dead end
+		ArrayList<Direction> newChoices = checkChoices(choices);
+		Direction nextDir; //this variable represents the next direction the hamster will take
+		//the Hamster is at a cross-roads
 		if (choices.length > 2){
 			
-			//if there are no possibles ways the hamster will stop
-			if (choicesPos.size() == 0 && counter == 2){	
+			//If there are no possible choices, the hamster will stop
+			if (newChoices.size() == 0 && counter == 2){	
 				return Direction.NONE;
 			}
 			
 			if (counter == 2){
 				
-				//if the crossroad have only one way not already taken, the hamster will take it and count that crossroad like an impasse
-				if (choicesPos.size() == 1){
+				//if the cross-roads only has one path that hasn't been taken yet, the hamster will choose it and treat that cross-roads as a dead end
+				if (newChoices.size() == 1){
 					Vector2D deadEnd = this.getPosition().addDirectionTo(previousDir.reverse());
 					deadEnds.add(deadEnd);
 				}
 				//add the impasse to the deadEnd list
-				else{
-					
+				else {
 					Vector2D deadEnd = this.getPosition().addDirectionTo(previousDir.reverse());
 					deadEnds.add(deadEnd);
 					counter = 1;
 				}
 			}
 			
-			//when the hamster finds an impasse it goes back and set the counter to 2
-			if (choicesPos.size() == 0){					  	
+			//when the hamster finds a dead end, it turns around and sets the counter to 2
+			if (newChoices.size() == 0){					  	
 				counter = 2;
 				nextDir = previousDir.reverse();
 			
-			//in case of multiple choices the hamster's choice is random
-			}else{
-				
-				int index = RANDOM.nextInt(choicesPos.size()); 
-				nextDir = choicesPos.get(index);
+			//in the case of multiple choices, the hamster chooses randomly
+			} else {
+				int index = RANDOM.nextInt(newChoices.size()); 
+				nextDir = newChoices.get(index);
 			}
 			
-			previousDir = nextDir;
+			previousDir = nextDir; //update the previous direction to match the direction returned
 			return nextDir;
 		
-		//the hamster is not in a crossroad
-		}else{	
+		//the hamster is not at a cross-roads
+		} else {	
 			
-			//if the hamster finds an impasse it goes back and set the counter to 2
-			if (choicesPos.size() == 0){						
+			//if the hamster finds a dead end it goes back and set the counter to 2
+			if (newChoices.size() == 0){						
 				counter = 2;
 				nextDir = previousDir.reverse();
 				
-			}else{
-			
-			//the hamster doesn't go back 
-			ArrayList<Direction> doubleChoices = new ArrayList<Direction>(); 
-			for (Direction choice : choices){
-				if (!choice.isOpposite(previousDir)) {
-					doubleChoices.add(choice);
-				}
-			}
-			nextDir = doubleChoices.get(0);
+			} else {
+			//the hamster does not turn around, instead opting for the one direction which will not make him do so
+				nextDir = newChoices.get(0); 
 		}
 			previousDir = nextDir;
 			return nextDir;
 		}
 	}
 	
-	//This method converts all the possible choices to what positions they represent in the labyrinth
-	private ArrayList<Direction> dirToVect(Direction[] choices) { 
+	//This method create a new list of choices based on the all the possible ones, which excludes the opposite direction and all directions which would lead to a dead end
+	private ArrayList<Direction> checkChoices(Direction[] choices) { 
 		Vector2D currentPos = this.getPosition();
-		ArrayList<Direction> choicesPos = new ArrayList<Direction>();
+		ArrayList<Direction> newChoices = new ArrayList<Direction>();
 		for (Direction choice : choices) {
 			Vector2D choiceVect = currentPos.addDirectionTo(choice);
 			if (!deadEnds.contains(choiceVect) &&  !choice.isOpposite(previousDir)) {
-				choicesPos.add(choice); 
+				newChoices.add(choice); 
 			}
 		}
-		return choicesPos;
+		return newChoices;
 	}
 	
 	@Override
-	public Animal copy() {
-		Vector2D position = this.getPosition ();
-		Animal h = new Hamster(position);
-		
-		// TODO
+	public Animal copy() { //Creates a new hamster which it initializes with the same position of the instance this method is called from 
+		Vector2D position = this.getPosition(); 
+		Hamster h = new Hamster(position);
 		return h;
 	}
 }
